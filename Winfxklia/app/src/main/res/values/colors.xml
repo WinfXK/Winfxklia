@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="winfxkliba_teal_200">#FF03DAC5</color>
+    <color name="winfxkliba_teal_700">#FF018786</color>
+    <color name="winfxkliba_black">#FF000000</color>
+    <color name="winfxkliba_white">#FFFFFFFF</color>
+    <color name="winfxkliba_dialog_background">#cfff</color>
+    <color name="winfxkliba_db_button_dowm">#cccc</color>
+    <color name="winfxkliba_db_button_foc">#ceee</color>
+    <color name="winfxkliba_dialog_line">#cccc</color>
+    <color name="winfxkliba_transparent">#00000000</color>
+</resources>

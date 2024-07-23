@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/winfxkliba_setting_item_height">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/winfxkliba_setting_item_height"
+            tools:ignore="UselessParent">
+
+        <com.winfxk.winfxklia.view.ImageView
+                android:padding="@dimen/winfxkliba_setting_item_switch_padding"
+                android:src="@drawable/winfxkliba_info"
+                android:contentDescription="@string/winfxklia_app_name"
+                android:id="@+id/imageView1"
+                android:layout_width="@dimen/winfxkliba_setting_item_height"
+                android:layout_height="@dimen/winfxkliba_setting_item_height"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_toStartOf="@id/switch1"
+                android:layout_marginStart="@dimen/winfxkliba_setting_item_switch_padding"
+                android:layout_toEndOf="@id/imageView1"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/textView1"
+                    android:textSize="@dimen/winfxkliba_setting_item_text_size"
+                    android:textColor="@color/winfxkliba_black"
+                    android:textStyle="bold"
+                    android:text="@string/winfxklia_app_name"
+                    android:layout_marginTop="@dimen/winfxkliba_setting_item_title_marginTop"
+                    android:gravity="top|start"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            <TextView
+                    android:text="@string/winfxklia_app_name"
+                    android:id="@+id/textView2"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center_vertical|start"
+                    android:textSize="@dimen/winfxkliba_setting_item_hint_text_size"
+                    android:maxLines="@integer/winfxkliba_setting_item_hint_max_lines"
+                    android:ellipsize="end"
+                    android:maxHeight="@dimen/winfxkliba_setting_item_hint_max_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+        <com.winfxk.winfxklia.view.ImageView
+                android:contentDescription="@string/winfxklia_app_name"
+                android:src="@drawable/winfxkliba_next"
+                android:padding="@dimen/winfxkliba_setting_item_switch_padding"
+                android:scaleType="fitCenter"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/switch1"
+                android:layout_width="@dimen/winfxkliba_setting_item_height"
+                android:layout_height="@dimen/winfxkliba_setting_item_height"/>
+    </RelativeLayout>
+</RelativeLayout>

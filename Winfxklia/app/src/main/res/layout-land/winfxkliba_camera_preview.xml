@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <com.winfxk.winfxklia.view.camera.AutoFitTextureView
+            android:id="@+id/textureView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    <RelativeLayout
+            android:id="@+id/rinearLayout1"
+            android:background="@color/winfxkliba_black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <com.winfxk.winfxklia.view.ImageView
+                android:scaleType="fitCenter"
+                android:rotation="90"
+                android:contentDescription="@string/winfxkliba_camera_ok"
+                android:id="@+id/imageView1"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <LinearLayout
+            android:id="@+id/line1"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_width="@dimen/winfxkliba_camera_button_size"
+            android:gravity="center"
+            android:layout_marginEnd="20dp"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+
+        <ImageButton
+                android:layout_marginTop="@dimen/winfxkliba_camera_button_size"
+                android:layout_gravity="center"
+                android:background="@drawable/winfxkliba_transparency_button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/winfxkliba_camera"
+                android:contentDescription="@string/winfxkliba_camera_ok"
+                android:id="@+id/imageButton1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/winfxkliba_camera_button_size"/>
+
+        <ImageButton
+                android:layout_marginTop="@dimen/winfxkliba_camera_button_size"
+                android:layout_gravity="center"
+                android:src="@drawable/winfxkliba_succeed"
+                android:background="@drawable/winfxkliba_transparency_button"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/winfxkliba_confirm"
+                android:id="@+id/imageButton2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/winfxkliba_camera_button_size"/>
+    </LinearLayout>
+</RelativeLayout>

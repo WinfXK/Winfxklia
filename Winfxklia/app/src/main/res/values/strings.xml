@@ -1,0 +1,9 @@
+<resources>
+    <string name="winfxklia_app_name">Winfxklia</string>
+    <string name="winfxkliba_confirm">确定</string>
+    <string name="winfxkliba_cancel">取消</string>
+    <string name="winfxkliba_exit">退出</string>
+    <string name="winfxkliba_info">提示</string>
+    <string name="winfxkliba_empty">提示</string>
+    <string name="winfxkliba_camera_ok">拍摄</string>
+</resources>

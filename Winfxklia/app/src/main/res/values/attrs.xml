@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="Winfxklia_MenuButton">
+        <attr name="menuSize" format="dimension"/>
+    </declare-styleable>
+</resources>

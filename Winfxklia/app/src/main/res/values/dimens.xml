@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="winfxkliba_parbuilder_button_h">50dp</dimen>
+    <dimen name="winfxkliba_listbuilder_item_h">45dp</dimen>
+    <dimen name="winfxkliba_listbuilder_item_p">1dp</dimen>
+    <dimen name="winfxkliba_camera_button_size">60dp</dimen>
+    <dimen name="winfxkliba_setting_item_height">50dp</dimen>
+    <dimen name="winfxkliba_setting_item_hint_max_height">50dp</dimen>
+    <dimen name="winfxkliba_setting_item_text_size">15sp</dimen>
+    <dimen name="winfxkliba_setting_item_switch_padding">6dp</dimen>
+    <dimen name="winfxkliba_setting_item_hint_text_size">10sp</dimen>
+    <dimen name="winfxkliba_setting_item_title_marginTop">5dp</dimen>
+    <dimen name="winfxkliba_button_xml_padding">5dp</dimen>
+    <dimen name="winfxkliba_setting_item_textview_text_size">12sp</dimen>
+    <dimen name="winfxkliba_setting_item_textview_text_marginEnd">8dp</dimen>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/winfxkliba_setting_item_height">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/winfxkliba_setting_item_height"
+            tools:ignore="UselessParent">
+
+        <Button
+                android:id="@+id/switch1"
+                android:textStyle="bold"
+                android:text="@string/winfxklia_app_name"
+                android:background="@drawable/winfxklia_white_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:layout_alignParentBottom="true"
+                android:text="@string/winfxklia_app_name"
+                android:maxHeight="@dimen/winfxkliba_setting_item_hint_max_height"
+                android:maxLines="@integer/winfxkliba_setting_item_hint_max_lines"
+                android:ellipsize="end"
+                android:id="@+id/textView2"
+                android:layout_marginStart="@dimen/winfxkliba_setting_item_switch_padding"
+                android:gravity="center"
+                android:textSize="@dimen/winfxkliba_setting_item_hint_text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</RelativeLayout>
