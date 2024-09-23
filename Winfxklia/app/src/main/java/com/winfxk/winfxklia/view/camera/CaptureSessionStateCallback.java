@@ -6,10 +6,13 @@ package com.winfxk.winfxklia.view.camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CaptureRequest;
+import android.os.Build;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import com.winfxk.winfxklia.dialog.MyBuilder;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CaptureSessionStateCallback extends CameraCaptureSession.StateCallback {
     private final Camera2Helper main;
 

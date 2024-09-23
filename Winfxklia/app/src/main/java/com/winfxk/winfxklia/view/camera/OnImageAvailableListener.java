@@ -5,8 +5,11 @@ package com.winfxk.winfxklia.view.camera;
 
 import android.media.Image;
 import android.media.ImageReader;
+import android.os.Build;
 import android.util.Log;
+import androidx.annotation.RequiresApi;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class OnImageAvailableListener implements ImageReader.OnImageAvailableListener {
     private final Camera2Helper main;
 

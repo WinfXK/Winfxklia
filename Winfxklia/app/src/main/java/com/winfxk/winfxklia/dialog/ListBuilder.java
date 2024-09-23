@@ -2,6 +2,7 @@ package com.winfxk.winfxklia.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -142,7 +143,7 @@ public class ListBuilder extends BaseBuilder {
     }
 
     public ListBuilder addButton(String text, OnClickListener listener) {
-        return addButton(text, listener, context.getColor(R.color.winfxkliba_black));
+        return addButton(text, listener, Build.VERSION.SDK_INT >= 23 ? context.getColor(R.color.winfxkliba_black) : context.getResources().getColor(R.color.winfxkliba_black));
     }
 
     public ListBuilder addButton(String text, OnClickListener listener, int fontColor) {
@@ -170,7 +171,10 @@ public class ListBuilder extends BaseBuilder {
     }
 
     public ListBuilder removeButton(String text) {
-        buttons.removeIf(button -> button.getText().equals(text));
+        if (Build.VERSION.SDK_INT >= 24)
+            buttons.removeIf(button -> button.getText().equals(text));
+        else for (Button button : new ArrayList<>(buttons))
+            if (button.getText().equals(text)) buttons.remove(button);
         if (isShow) handler.post(() -> {
             view.removeAllViews();
             for (Button button : buttons) view.addView(button);

@@ -8,12 +8,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import com.winfxk.winfxklia.BaseActivity;
 import com.winfxk.winfxklia.R;
 import com.winfxk.winfxklia.dialog.MyBuilder;
@@ -41,6 +45,19 @@ public class CameraActivity extends BaseActivity implements OnPreviewCallbackLis
     private Animation hide, show;
 
     @Override
+    protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT < 21) {
+            MyBuilder builder = new MyBuilder(this);
+            builder.setType(Type.ERROR);
+            builder.setMessage("当前系统版本过低！暂时无法使用此功能！请升级到Android5及以上版本！");
+            builder.addButton("确定", a -> finish());
+            builder.show();
+            return;
+        }
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     protected void onInitialize() {
         setContentView(R.layout.winfxkliba_camera_preview);
         textureView = findViewById(R.id.textureView1);
@@ -58,6 +75,7 @@ public class CameraActivity extends BaseActivity implements OnPreviewCallbackLis
         havePermission(CameraPermissions);
         confirm.startAnimation(hide);
         relativeLayout.startAnimation(hide);
+        Log.i(getTAG(), "onInitialize: 请求码：" + this.getIntent().getIntExtra("requestCode", Activity.RESULT_OK));
     }
 
     @Override
@@ -65,6 +83,7 @@ public class CameraActivity extends BaseActivity implements OnPreviewCallbackLis
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void init() {
         super.init();
@@ -85,7 +104,7 @@ public class CameraActivity extends BaseActivity implements OnPreviewCallbackLis
                 Intent intent = new Intent().putExtra("path", path.getAbsolutePath());
                 Log.i(getTAG(), "图像保存成功！保存地址：" + path);
                 post(() -> {
-                    setResult(Activity.RESULT_OK, intent);
+                    setResult(this.getIntent().getIntExtra("requestCode", Activity.RESULT_OK), intent);
                     finish();
                 });
             } catch (IOException e) {
@@ -147,14 +166,16 @@ public class CameraActivity extends BaseActivity implements OnPreviewCallbackLis
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onResume() {
         super.onResume();
-        helper.open();
+        if (helper != null) helper.open();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onPause() {
-        helper.closeCamera();
+        if (helper != null) helper.closeCamera();
         super.onPause();
     }
 

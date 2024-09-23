@@ -66,16 +66,18 @@ public class HttpUpload extends BaseHttp {
         FileInputStream fileInputStream = null;
         BufferedReader in = null;
         try {
+            Log.i(getTAG(),"Upload file to: "+httpUrl+", params: "+(param!=null?param.toString():"null"));
             URL url = new URL(httpUrl);
             connection = (HttpURLConnection) url.openConnection();
             initeConnection(connection);
             connection.setUseCaches(false);
             connection.setRequestProperty("Connection", "Keep-Alive");
             connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=****");
-            if (param != null && !param.isEmpty())
-                for (Map.Entry<String, Object> entry : param.entrySet())
-                    connection.setRequestProperty(URLEncoder.encode(entry.getKey(), getEncoding()),
-                            URLEncoder.encode(Tool.objToString(entry.getValue()), getEncoding()));
+            if (param == null) param = getDefPost();
+            else param.putAll(getDefPost());
+            for (Map.Entry<String, Object> entry : param.entrySet())
+                connection.setRequestProperty(URLEncoder.encode(entry.getKey(), getEncoding()),
+                        URLEncoder.encode(Tool.objToString(entry.getValue()), getEncoding()));
             List<String> cookies = new ArrayList<>();
             if (saveCookies != null && !saveCookies.isEmpty()) cookies.addAll(saveCookies);
             if (this.cookies != null && !this.cookies.isEmpty()) cookies.addAll(this.cookies);

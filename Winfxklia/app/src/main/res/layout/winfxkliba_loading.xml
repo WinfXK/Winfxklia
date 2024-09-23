@@ -15,7 +15,7 @@
                 android:padding="8dp"
                 android:layout_width="50dp"
                 android:id="@+id/imageView1"
-                android:src="@drawable/winfxkliba_info"
+                android:src="@drawable/winfxkliba_info2"
                 android:scaleType="fitCenter"
                 android:contentDescription="@string/winfxkliba_info"
                 android:layout_height="match_parent"/>

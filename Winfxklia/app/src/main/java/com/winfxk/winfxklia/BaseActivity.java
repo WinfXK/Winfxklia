@@ -36,6 +36,18 @@ public abstract class BaseActivity extends Activity implements Tabable, Closeabl
 
     protected abstract void onInitialize();
 
+    @Override
+    public File getDataDir() {
+        if (Build.VERSION.SDK_INT < 24) {
+            File file = getFilesDir();
+            File pe = file.getParentFile();
+            if (pe != null && pe.getName().equals(getPackageName()))
+                return pe;
+            return file;
+        }
+        return super.getDataDir();
+    }
+
     /**
      * 创建并返回一个缓存文件
      *
@@ -175,6 +187,10 @@ public abstract class BaseActivity extends Activity implements Tabable, Closeabl
      * @param permissions 需要请求的权限
      */
     protected void havePermission(String[] permissions) {
+        if (Build.VERSION.SDK_INT < 23) {
+            init();
+            return;
+        }
         List<String> list = new ArrayList<>();
         for (String p : permissions)
             if (!hasPermission(p)) list.add(p);
@@ -194,14 +210,27 @@ public abstract class BaseActivity extends Activity implements Tabable, Closeabl
     protected void init() {
     }
 
+    /**
+     * @return 是否将未授权的权限内容打印到message
+     */
+    protected boolean isShowPermissionsResultError() {
+        return true;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        permissionsBuilder.clearButtons();
         if (requestCode == hasPermissionsCode) {
+            StringBuilder deniedPermissions = new StringBuilder();
+            if (isShowPermissionsResultError())
+                for (int i = 0; i < grantResults.length; i++)
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED)
+                        deniedPermissions.append(permissions[i]).append("\n");
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 permissionsBuilder.setType(com.winfxk.winfxklia.dialog.Type.SUCCESS).setMessage("授权成功！").addButton("确定", (bu) -> init());
             } else {
                 permissionsBuilder.setType(com.winfxk.winfxklia.dialog.Type.ERROR).
-                        setMessage("授权失败！本程序需授权后才能使用！")
+                        setMessage("授权失败！本程序需授权后才能使用！\n" + deniedPermissions)
                         .addButton("退出", (bu) -> finish())
                         .addButton("重试", (bu) -> {
                             bu.setNotClose();
@@ -224,7 +253,7 @@ public abstract class BaseActivity extends Activity implements Tabable, Closeabl
      * @return 判断是否拥有权限
      */
     private boolean hasPermission(String permissions) {
-        return (this.checkSelfPermission(permissions) == PackageManager.PERMISSION_GRANTED);
+        return Build.VERSION.SDK_INT < 23 || (this.checkSelfPermission(permissions) == PackageManager.PERMISSION_GRANTED);
     }
 
     public String getTestTag() {
@@ -238,7 +267,7 @@ public abstract class BaseActivity extends Activity implements Tabable, Closeabl
      */
     public static void setFullScreen(BaseActivity activity) {
         Window window = activity.getWindow();
-        window.setStatusBarColor(Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= 21) window.setStatusBarColor(Color.TRANSPARENT);
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         View decorView = window.getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);

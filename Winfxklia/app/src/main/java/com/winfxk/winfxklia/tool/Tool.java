@@ -2,8 +2,10 @@ package com.winfxk.winfxklia.tool;
 
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
+import androidx.annotation.RequiresApi;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -11,7 +13,6 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.security.KeyManagementException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -35,7 +36,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
     private static final String randString = "-+abcdefghijklmnopqrstuvwxyz_";
     private static final SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
     private static final SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-    private final static char[] digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+    public final static char[] digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
             'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '+', '-'};
     private static final List<String> INVALID_CHARACTERS = Arrays.asList("<", ">", ":", "\\", "\"", "/", "|", "?", "*");
     private static final List<String> reservedWords = Arrays.asList("con", "prn", "aux", "nul", ".", "..");
@@ -45,6 +46,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
     private static final Random random = new Random();
     private static final String isDigit = ".*\\d+.*";
     private static final String Tag = "Tool";
+    private static final Pattern NumPattern = Pattern.compile("[0-9.]*");
 
     /**
      * 读取一个文件并且序列化为Base64字符串
@@ -223,8 +225,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      * 获取文件大小
      */
     public static String getSize(long size) {
-        if (size < 1024)
-            return size + "B";
+        if (size < 1024) return size + "B";
         int index = 1;
         float Size = size / (float) 1024;
         while (Size > 1024) {
@@ -312,7 +313,11 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      * @return 日期对象
      */
     public static Date parseDate(String dateStr) {
-        return parseDate(dateStr, "yyyy-MM-dd HH:mm:ss");
+        try {
+            return parseDate(dateStr, "yyyy-MM-dd HH:mm:ss");
+        } catch (Exception e) {
+            return parseDate(dateStr, "yyyy/MM/dd HH:mm:ss");
+        }
     }
 
     /**
@@ -472,8 +477,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      */
     public static int getDecimalsLength(float f) {
         String string = String.valueOf(f);
-        if (f == 0 || !string.contains("."))
-            return 0;
+        if (f == 0 || !string.contains(".")) return 0;
         return string.substring(string.indexOf(".") + 1).length();
     }
 
@@ -485,10 +489,8 @@ public class Tool implements X509TrustManager, HostnameVerifier {
         String chinese = "[一-龥]";
         for (int i = 0; i < value.length(); i++) {
             String temp = value.substring(i, i + 1);
-            if (temp.matches(chinese))
-                valueLength += 2;
-            else
-                valueLength += 1;
+            if (temp.matches(chinese)) valueLength += 2;
+            else valueLength += 1;
         }
         return valueLength;
     }
@@ -499,21 +501,16 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      * @param f int[分子,分母]
      */
     public static long[] getGrade(float f, int floatLength) {
-        if (f == 0)
-            return new long[]{0, 0};
+        if (f == 0) return new long[]{0, 0};
         String string = String.valueOf(f);
-        if (!string.contains("."))
-            return new long[]{(long) f, 1};
+        if (!string.contains(".")) return new long[]{(long) f, 1};
         String sint = string.substring(0, string.indexOf("."));
         String sfloat = string.substring(string.indexOf(".") + 1);
         long Fenmu = 1;
-        for (int k = 0; k < floatLength; k++)
-            Fenmu *= 10;
+        for (int k = 0; k < floatLength; k++) Fenmu *= 10;
         long Fenzi = Long.parseLong(sint + sfloat);
         long lXs = Math.min(Fenzi, Fenmu), j;
-        for (j = lXs; j > 1; j--)
-            if (Fenzi % j == 0 && Fenmu % j == 0)
-                break;
+        for (j = lXs; j > 1; j--) if (Fenzi % j == 0 && Fenmu % j == 0) break;
         Fenzi = Fenzi / j;
         Fenmu = Fenmu / j;
         return new long[]{Fenzi, Fenmu};
@@ -530,8 +527,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      * Object对象转换为String
      */
     public static String objToString(Object obj, String string) {
-        if (obj == null)
-            return string;
+        if (obj == null) return string;
         try {
             return String.valueOf(obj);
         } catch (Exception e) {
@@ -609,7 +605,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
         if (!file1.exists()) return;
         File Parent = file2.getParentFile();
         if (Parent != null && !Parent.exists()) if (!Parent.mkdirs()) Log.e(Tag, "复制文件时创建文件所在路径失败！");
-        InputStream fileInputStream = Files.newInputStream(file1.toPath());
+        InputStream fileInputStream = new FileInputStream(file1);
         OutputStream fileOutputStream = new FileOutputStream(file2, true);
         int temp;
         while ((temp = fileInputStream.read()) != -1)
@@ -643,10 +639,8 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      */
     public static int[] IDtoFullID(Object obj, int Damage) {
         String ID = "0";
-        if (obj != null && !String.valueOf(obj).isEmpty())
-            ID = String.valueOf(obj);
-        if (!ID.contains(":"))
-            ID += ":" + Damage;
+        if (obj != null && !String.valueOf(obj).isEmpty()) ID = String.valueOf(obj);
+        if (!ID.contains(":")) ID += ":" + Damage;
         String[] strings = ID.split(":");
         try {
             return new int[]{Integer.parseInt(strings[0]), Integer.parseInt(strings[1])};
@@ -654,6 +648,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
             return new int[]{0, 0};
         }
     }
+
     /**
      * 获取随机数
      */
@@ -811,8 +806,9 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      */
     public static String getColorFont(String Font, String ColorFont) {
         StringBuilder text = new StringBuilder();
+        int rand;
         for (int i = 0; i < Font.length(); i++) {
-            int rand = Tool.getRand(0, ColorFont.length() - 1);
+            rand = Tool.getRand(0, ColorFont.length() - 1);
             text.append("§").append(ColorFont.charAt(rand)).append(Font.charAt(i));
         }
         return text.toString();
@@ -823,7 +819,10 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      */
     public static boolean isInteger(Object str) {
         try {
-            new BigDecimal(String.valueOf(str));
+            if (str == null) return false;
+            String value = String.valueOf(str);
+            if (value.isEmpty()) return false;
+            new BigDecimal(value);
             return true;
         } catch (Exception e) {
             return false;
@@ -834,8 +833,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      * 判断一段字符串中是否只为纯数字
      */
     public static boolean isNumeric(String str) {
-        Pattern pattern = Pattern.compile("[0-9.]*");
-        return pattern.matcher(str).matches();
+        return NumPattern.matcher(str).matches();
     }
 
     /**
@@ -880,11 +878,9 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      * @param length 要保留的小数的
      */
     public static double Double2(double d, int length) {
-        if (d == 0)
-            return 0;
+        if (d == 0) return 0;
         StringBuilder s = new StringBuilder("#.0");
-        for (int i = 1; i < length; i++)
-            s.append("0");
+        for (int i = 1; i < length; i++) s.append("0");
         DecimalFormat df = new DecimalFormat(s.toString());
         return Double.parseDouble(df.format(d));
     }
@@ -1001,8 +997,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
     public static String cutString(String Context, String strStart, String strEnd) {
         int strStartIndex = Context.indexOf(strStart);
         int strEndIndex = Context.indexOf(strEnd, strStartIndex + 1);
-        if (strStartIndex < 0 || strEndIndex < 0)
-            return null;
+        if (strStartIndex < 0 || strEndIndex < 0) return null;
         return Context.substring(strStartIndex, strEndIndex).substring(strStart.length());
     }
 
@@ -1056,8 +1051,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      * 一个Object值转换为bool值，转化失败返回false
      */
     public static boolean ObjToBool(Object obj, boolean Del) {
-        if (obj == null)
-            return Del;
+        if (obj == null) return Del;
         try {
             return Boolean.parseBoolean(String.valueOf(obj));
         } catch (Exception e) {
@@ -1198,21 +1192,18 @@ public class Tool implements X509TrustManager, HostnameVerifier {
      * 将未知参数转换为小数
      */
     public static Double ObjToDouble(Object obj, Double double1) {
-        if (obj == null) return double1;
-        double d;
         try {
-            String S = String.valueOf(obj);
-            if (S.isEmpty()) return double1;
-            d = Double.parseDouble(S);
+            BigDecimal d = objToBigDecimal(obj, null);
+            return d == null ? double1 : d.doubleValue();
         } catch (Exception e) {
             return double1;
         }
-        return d;
     }
 
     /**
      * 将Map按数据升序排列
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValueAscending(Map<K, V> map) {
         List<Entry<K, V>> list = new LinkedList<>(map.entrySet());
         list.sort(Entry.comparingByValue());
@@ -1225,6 +1216,7 @@ public class Tool implements X509TrustManager, HostnameVerifier {
     /**
      * 将Map降序排序
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValueDescending(Map<K, V> map) {
         List<Entry<K, V>> list = new LinkedList<>(map.entrySet());
         list.sort((a, b) -> -(a.getValue().compareTo(b.getValue())));

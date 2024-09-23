@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:id="@+id/line1"
+            android:background="@drawable/winfxkliba_opensource_backg"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <TextView
+                android:textSize="20sp"
+                android:textColor="@color/winfxkliba_white"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="@string/winfxkliba_openSourceTItle"
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <com.winfxk.winfxklia.view.ImageView
+                android:id="@+id/imageView1"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/winfxkliba_back"
+                android:src="@drawable/winfxkloba_back"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+    <ListView
+            android:id="@+id/listView1"
+            android:layout_below="@id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+</RelativeLayout>

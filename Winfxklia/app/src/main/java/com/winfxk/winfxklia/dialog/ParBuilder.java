@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -21,9 +22,9 @@ import com.winfxk.winfxklia.R;
 import com.winfxk.winfxklia.view.ImageView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class ParBuilder extends BaseBuilder implements ImageView.ImageViewListen
     }
 
     public ParBuilder addButton(String text, OnClickListener listener) {
-        return addButton(text, listener, context.getColor(R.color.winfxkliba_black));
+        return addButton(text, listener, Build.VERSION.SDK_INT >= 23 ? context.getColor(R.color.winfxkliba_black) : context.getResources().getColor(R.color.winfxkliba_black));
     }
 
     public ParBuilder addButton(String text, OnClickListener listener, int fontColor) {
@@ -148,7 +149,7 @@ public class ParBuilder extends BaseBuilder implements ImageView.ImageViewListen
     }
 
     public ParBuilder setIcon(File file) throws IOException {
-        return setIcon(Files.newInputStream(file.toPath()));
+        return setIcon(new FileInputStream(file));
     }
 
     public ParBuilder setIcon(InputStream is) {
@@ -231,9 +232,11 @@ public class ParBuilder extends BaseBuilder implements ImageView.ImageViewListen
         button.setBackground(AppCompatResources.getDrawable(context, R.drawable.winfxkliba_dialog_button));
         button.setLayoutParams(layoutParams);
         button.setPadding(0, 0, 0, 0);
-        StateListAnimator stateListAnimator = new StateListAnimator();
-        stateListAnimator.addState(new int[]{}, ObjectAnimator.ofFloat(button, "elevation", 0f));
-        button.setStateListAnimator(stateListAnimator);
+        if (Build.VERSION.SDK_INT >= 21) {
+            StateListAnimator stateListAnimator = new StateListAnimator();
+            stateListAnimator.addState(new int[]{}, ObjectAnimator.ofFloat(button, "elevation", 0f));
+            button.setStateListAnimator(stateListAnimator);
+        }
         return button;
     }
 
@@ -244,7 +247,10 @@ public class ParBuilder extends BaseBuilder implements ImageView.ImageViewListen
     }
 
     public ParBuilder removeButton(String text) {
-        buttons.removeIf(button -> button.getText().equals(text));
+        if (Build.VERSION.SDK_INT >= 24)
+            buttons.removeIf(button -> button.getText().equals(text));
+        else for (Button button : new ArrayList<>(buttons))
+            if (button.getText().equals(text)) line1.removeView(button);
         if (isShow) handler.post(() -> {
             line1.removeAllViews();
             for (Button button : buttons) line1.addView(button);
@@ -263,8 +269,16 @@ public class ParBuilder extends BaseBuilder implements ImageView.ImageViewListen
         return message.getText().toString();
     }
 
+    private long timeline = 0;
+
     public ParBuilder setMessage(String message) {
-        handler.post(() -> this.message.setText(message));
+        long time = System.currentTimeMillis();
+        handler.post(() -> {
+            if (Math.abs(time - timeline) > 1000)
+                this.message.startAnimation(alpha_show);
+            this.message.setText(message);
+            timeline = time;
+        });
         return this;
     }
 

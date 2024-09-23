@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +17,10 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import com.winfxk.winfxklia.R;
 import com.winfxk.winfxklia.tool.Tool;
 import com.winfxk.winfxklia.view.ImageView;
@@ -50,11 +54,14 @@ public class MenuButton extends LinearLayout {
     }
 
     public MenuButton(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+        super(context, attrs, defStyleAttr);
+        initSize(context, attrs);
+        init();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public MenuButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(context, attrs, defStyleAttr);
         initSize(context, attrs);
         init();
     }
@@ -109,8 +116,10 @@ public class MenuButton extends LinearLayout {
         Log.d(getLogTag(), getHeight() + "");
         line1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         addView(view);
-        imageView.setElevation(10);
-        imageView.setTranslationZ(10);
+        if (Build.VERSION.SDK_INT >= 21) {
+            imageView.setElevation(10);
+            imageView.setTranslationZ(10);
+        }
     }
 
     public static MenuButton make(Context context, int size) {
@@ -211,7 +220,7 @@ public class MenuButton extends LinearLayout {
             line1.addView(itemView.getView());
             itemView.setSize();
         }
-        setZ(999);
+        if (Build.VERSION.SDK_INT >= 21) setZ(999);
     }
 
     public OnChangeListener getHideListener() {
@@ -235,7 +244,7 @@ public class MenuButton extends LinearLayout {
         else show();
     }
 
-    public ItemView addMenu(String title, String imageUrl, int background, OnClickListener listener) {
+    public ItemView addMenu(String title, String imageUrl, @ColorInt  int background, OnClickListener listener) {
         ItemView itemView = new ItemView(this);
         itemView.setTitle(title);
         itemView.setImageUrl(imageUrl);
@@ -245,7 +254,7 @@ public class MenuButton extends LinearLayout {
         return itemView;
     }
 
-    public ItemView addMenu(String title, File image, int background, OnClickListener listener) throws IOException {
+    public ItemView addMenu(String title, File image, @ColorInt  int background, OnClickListener listener) throws IOException {
         ItemView itemView = new ItemView(this);
         itemView.setTitle(title);
         itemView.setImageFile(image);
@@ -255,7 +264,7 @@ public class MenuButton extends LinearLayout {
         return itemView;
     }
 
-    public ItemView addMenu(String title, int image, int background, OnClickListener listener) {
+    public ItemView addMenu(String title, @DrawableRes int image, @ColorInt  int background, OnClickListener listener) {
         ItemView itemView = new ItemView(this);
         itemView.setTitle(title);
         itemView.setImageResource(image);
@@ -265,7 +274,7 @@ public class MenuButton extends LinearLayout {
         return itemView;
     }
 
-    public ItemView addMenu(String title, Bitmap image, int background, OnClickListener listener) {
+    public ItemView addMenu(String title, Bitmap image, @ColorInt int background, OnClickListener listener) {
         ItemView itemView = new ItemView(this);
         itemView.setTitle(title);
         itemView.setImageBitmap(image);
@@ -292,13 +301,13 @@ public class MenuButton extends LinearLayout {
         this.listener = listener;
     }
 
-    public MenuButton setBackground(int backgroundColor) {
+    public MenuButton setBackground(@ColorInt int backgroundColor) {
         this.backgroundColor = backgroundColor;
         imageView.setBackgroundColor(backgroundColor);
         return this;
     }
 
-    public int getImageBackground() {
+    public @ColorInt int getImageBackground() {
         return this.backgroundColor;
     }
 
@@ -311,7 +320,7 @@ public class MenuButton extends LinearLayout {
         return title.getText().toString();
     }
 
-    public int getBackgroundColor() {
+    public @ColorInt int getBackgroundColor() {
         return backgroundColor;
     }
 
@@ -360,7 +369,7 @@ public class MenuButton extends LinearLayout {
             if (menu.isClickClose) menu.hide();
         }
 
-        public ItemView setBackground(int color) {
+        public ItemView setBackground(@ColorInt int color) {
             imageView.setBackgroundColor(Tool.expandColor(color));
             return this;
         }
@@ -380,7 +389,7 @@ public class MenuButton extends LinearLayout {
             return this;
         }
 
-        public ItemView setImageResource(int ID) {
+        public ItemView setImageResource(@DrawableRes int ID) {
             imageView.setImageResource(ID);
             return this;
         }
@@ -389,12 +398,12 @@ public class MenuButton extends LinearLayout {
             return imageView.getImageBitmap();
         }
 
-        public ItemView setTitleColor(int color) {
+        public ItemView setTitleColor(@ColorInt int color) {
             title.setTextColor(color);
             return this;
         }
 
-        public int getTitleColor() {
+        public @ColorInt int getTitleColor() {
             return title.getCurrentTextColor();
         }
 

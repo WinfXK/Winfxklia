@@ -7,8 +7,11 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
+import android.os.Build;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SessionCaptureCallback extends CameraCaptureSession.CaptureCallback {
     private final Camera2Helper main;
 

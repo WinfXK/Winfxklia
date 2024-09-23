@@ -4,9 +4,11 @@
 package com.winfxk.winfxklia.view.camera;
 
 import android.hardware.camera2.CameraDevice;
+import android.os.Build;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import com.winfxk.winfxklia.dialog.MyBuilder;
-
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class StateCallback extends CameraDevice.StateCallback {
     private final Camera2Helper main;
 

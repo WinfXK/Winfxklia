@@ -85,7 +85,9 @@ public class Http extends BaseHttp {
             if (saveCookies != null && !saveCookies.isEmpty()) cookies.addAll(saveCookies);
             if (this.cookies != null && !this.cookies.isEmpty()) cookies.addAll(this.cookies);
             if (!cookies.isEmpty()) connection.setRequestProperty("Cookie", String.join("; ", cookies));
-            if (param != null && !param.isEmpty()) (os = connection.getOutputStream()).write(param.getBytes(this));
+            if (param == null) param = getDefPost();
+            else param.putAll(getDefPost());
+            (os = connection.getOutputStream()).write(param.getBytes(this));
             if (connection.getResponseCode() == 200) {
                 is = connection.getInputStream();
                 br = new BufferedReader(new InputStreamReader(is, getEncoding()));

@@ -8,7 +8,7 @@ import com.winfxk.winfxklia.tool.Tool
 import java.math.BigDecimal
 
 @Suppress("unused")
-class MyMap<T, V>() : HashMap<T, V>() {
+class MyMap<T, V>() : LinkedHashMap<T, V>() {
     constructor(key: T, value: V) : this() {
         this[key] = value
     }

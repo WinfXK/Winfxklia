@@ -15,14 +15,15 @@ import androidx.annotation.Nullable;
 import com.winfxk.winfxklia.BaseActivity;
 import com.winfxk.winfxklia.R;
 import com.winfxk.winfxklia.http.BaseHttp;
+import com.winfxk.winfxklia.tool.copy.net.URLEncoder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -90,7 +91,7 @@ public class ImageView extends androidx.appcompat.widget.AppCompatImageView {
         options.inSampleSize = calculateInSampleSize(options);
         options.inJustDecodeBounds = false;
         options.inPreferredConfig = Bitmap.Config.RGB_565;
-        setImageBitmap(BitmapFactory.decodeStream(Files.newInputStream(file.toPath()), null, options));
+        setImageBitmap(BitmapFactory.decodeStream(new FileInputStream(file), null, options));
     }
 
     public void setImageURL(@NotNull String url) {
@@ -116,6 +117,23 @@ public class ImageView extends androidx.appcompat.widget.AppCompatImageView {
         HttpURLConnection connection = null;
         InputStream inputStream = null;
         try {
+            if (string.contains("?")) {
+                String host = string.substring(0, string.indexOf("?"));
+                String post = string.substring(string.indexOf(host) + host.length() + 1);
+                String[] posts = post.split("&");
+                StringBuilder ppos = new StringBuilder();
+                String[] params;
+                for (String s : posts) {
+                    params = s.split("=");
+                    if (params.length < 2) {
+                        Log.w(getTAG(), "run: 无法解析请求的参数！" + s);
+                        continue;
+                    }
+                    ppos.append((ppos.length() == 0) ? "" : "&").append(URLEncoder.encode(params[0])).append("=").append(URLEncoder.encode(params[1]));
+                }
+                string = host + "?" + ppos;
+            }
+            Log.i(getTAG(), "Url image: " + string);
             URL url = new URL(string);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -151,11 +169,14 @@ public class ImageView extends androidx.appcompat.widget.AppCompatImageView {
                     if (listener != null) listener.onListener(true);
                     setImageBitmap(bitmap);
                 });
-            } else post(() -> {
-                Log.e(getTAG(), "网络图片\"" + string + "\"获取失败！");
-                if (listener != null) listener.onListener(false);
-                setImageResource(R.drawable.winfxkliba_wifi_sb);
-            });
+            } else {
+                String finalString = string;
+                post(() -> {
+                    Log.e(getTAG(), "网络图片\"" + finalString + "\"获取失败！");
+                    if (listener != null) listener.onListener(false);
+                    setImageResource(R.drawable.winfxkliba_wifi_sb);
+                });
+            }
         } catch (Exception e) {
             Log.e(getTAG(), "网络图片\"" + string + "\"获取失败！", e);
             post(() -> {

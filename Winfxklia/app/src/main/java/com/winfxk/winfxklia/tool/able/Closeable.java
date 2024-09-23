@@ -12,7 +12,7 @@ public interface Closeable {
             if (close != null) try {
                 close.close();
             } catch (Exception e) {
-                Log.w("Closeable", "关闭流时出现异常！", e);
+                Log.w("Closeable", "关闭流" + close.getClass().getSimpleName() + "时出现异常！", e);
             }
     }
 }

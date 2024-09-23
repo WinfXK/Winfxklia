@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -21,12 +22,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import com.winfxk.winfxklia.R;
 import com.winfxk.winfxklia.tool.Tool;
-import com.winfxk.winfxklia.tool.able.Tabable;
 import com.winfxk.winfxklia.view.ImageView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ import java.util.List;
  * date: 2024/5/3 22:12
  */
 @SuppressWarnings("unused")
-public class MyBuilder extends BaseBuilder implements ImageView.ImageViewListener{
+public class MyBuilder extends BaseBuilder implements ImageView.ImageViewListener {
     private final List<OnClickListener> allListeners = new ArrayList<>();
     private final List<Button> buttons = new ArrayList<>();
     private boolean isClickOnClose = true;
@@ -57,7 +57,7 @@ public class MyBuilder extends BaseBuilder implements ImageView.ImageViewListene
     }
 
     public MyBuilder(@NonNull Context context, String title, String message) {
-        this(context, R.drawable.winfxkliba_info, title, message);
+        this(context, R.drawable.winfxkliba_info2, title, message);
     }
 
     public MyBuilder(@NonNull Context context, Type state, String title, String message) {
@@ -107,7 +107,12 @@ public class MyBuilder extends BaseBuilder implements ImageView.ImageViewListene
     }
 
     public MyBuilder removeButton(String text) {
-        buttons.removeIf(button -> button.getText().equals(text));
+        if (Build.VERSION.SDK_INT >= 24) buttons.removeIf(button -> button.getText().equals(text));
+        else for (Button button : new ArrayList<>(buttons))
+            if (button.getText().equals(text)) {
+                buttons.remove(button);
+                break;
+            }
         if (isShow) handler.post(() -> {
             view.removeAllViews();
             for (Button button : buttons) view.addView(button);
@@ -235,7 +240,7 @@ public class MyBuilder extends BaseBuilder implements ImageView.ImageViewListene
     }
 
     public MyBuilder setIcon(File file) throws IOException {
-        return setIcon(BitmapFactory.decodeStream(Files.newInputStream(file.toPath())));
+        return setIcon(BitmapFactory.decodeStream(new FileInputStream(file)));
     }
 
     public MyBuilder setMessage(int messageId) {
@@ -263,7 +268,9 @@ public class MyBuilder extends BaseBuilder implements ImageView.ImageViewListene
     }
 
     public MyBuilder addButton(String text, OnClickListener listener) {
-        return addButton(text, listener, context.getColor(R.color.winfxkliba_black));
+        int color = Build.VERSION.SDK_INT >= 23 ? context.getColor(R.color.winfxkliba_black)
+                : context.getResources().getColor(R.color.winfxkliba_black);
+        return addButton(text, listener, color);
     }
 
     public MyBuilder addButton(String text, OnClickListener listener, int fontColor) {
@@ -299,9 +306,11 @@ public class MyBuilder extends BaseBuilder implements ImageView.ImageViewListene
         button.setLayoutParams(layoutParams);
         button.setPadding(0, 0, 0, 0);
         button.setBackground(AppCompatResources.getDrawable(context, R.drawable.winfxkliba_dialog_button));
-        StateListAnimator stateListAnimator = new StateListAnimator();
-        stateListAnimator.addState(new int[]{}, ObjectAnimator.ofFloat(button, "elevation", 0f));
-        button.setStateListAnimator(stateListAnimator);
+        if (Build.VERSION.SDK_INT >= 21) {
+            StateListAnimator stateListAnimator = new StateListAnimator();
+            stateListAnimator.addState(new int[]{}, ObjectAnimator.ofFloat(button, "elevation", 0f));
+            button.setStateListAnimator(stateListAnimator);
+        }
         return button;
     }
 

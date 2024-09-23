@@ -5,7 +5,7 @@ package com.winfxk.winfxklia.tool.able;
 
 public interface Tabable {
     default String getTAG() {
-        return getClass().getSimpleName();
+        return this.getClass().getSimpleName();
     }
 
     default String getTab() {

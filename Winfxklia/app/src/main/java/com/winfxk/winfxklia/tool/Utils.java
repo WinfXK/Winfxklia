@@ -39,7 +39,7 @@ public class Utils {
 
     public static String readFile(File file) throws IOException {
         if (!file.exists() || file.isDirectory()) throw new FileNotFoundException();
-        return readFile(Files.newInputStream(file.toPath()));
+        return readFile(new FileInputStream(file));
     }
 
     public static String readFile(String filename) throws IOException {

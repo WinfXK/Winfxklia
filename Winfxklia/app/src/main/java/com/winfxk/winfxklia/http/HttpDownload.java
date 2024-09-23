@@ -4,6 +4,7 @@
 package com.winfxk.winfxklia.http;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import com.winfxk.winfxklia.http.listener.OnDownloadCompletListener;
 import com.winfxk.winfxklia.http.listener.OnDownloadListener;
@@ -64,10 +65,10 @@ public class HttpDownload extends BaseHttp {
                 completListener.onDownloadComplet(this, null, System.currentTimeMillis() - time, false, exception);
             throw exception;
         }
-        if (param != null) {
-            if (!urlStr.contains("?")) urlStr += "?";
-            urlStr += param.getString(this);
-        }
+        if (param == null) param = getDefPost();
+        else param.putAll(getDefPost());
+        if (!urlStr.contains("?")) urlStr += "?";
+        urlStr += param.getString(this);
         Log.i(getTAG(), "download file to " + file + " by " + urlStr + ", request type: " + type.getType() + ", param->" + param);
         HttpURLConnection connection = null;
         InputStream inputStream = null;
@@ -95,7 +96,7 @@ public class HttpDownload extends BaseHttp {
             else if (!parent.exists()) if (!parent.mkdirs()) Log.w(getTAG(), "创建下载路径失败！");
             if (file.exists()) if (!file.delete()) Log.w(getTAG(), "下载前删除源文件失败！");
             out = new FileOutputStream(file);
-            long maxlength = Math.abs(connection.getContentLengthLong());
+            long maxlength = Math.abs(Build.VERSION.SDK_INT >= 24 ? connection.getContentLengthLong() : connection.getContentLength());
             byte[] bytes = new byte[getCacheSize(maxlength)];
             long now = 0, length;
             while ((length = inputStream.read(bytes)) != -1) {

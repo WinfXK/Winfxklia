@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="winfxkliba_teal_200">#FF03DAC5</color>
-    <color name="winfxkliba_teal_700">#FF018786</color>
     <color name="winfxkliba_black">#FF000000</color>
     <color name="winfxkliba_white">#FFFFFFFF</color>
+    <color name="winfxkliba_blue">#0000ff</color>
+    <color name="winfxkliba_red">#ff0000</color>
+    <color name="winfxkliba_green">#00ff00</color>
+    <color name="winfxkliba_yellow">#ffff00</color>
+    <color name="winfxkliba_teal_200">#FF03DAC5</color>
+    <color name="winfxkliba_teal_700">#FF018786</color>
     <color name="winfxkliba_dialog_background">#cfff</color>
     <color name="winfxkliba_db_button_dowm">#cccc</color>
     <color name="winfxkliba_db_button_foc">#ceee</color>

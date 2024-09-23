@@ -4,6 +4,8 @@
     <string name="winfxkliba_cancel">取消</string>
     <string name="winfxkliba_exit">退出</string>
     <string name="winfxkliba_info">提示</string>
-    <string name="winfxkliba_empty">提示</string>
+    <string name="winfxkliba_empty">""</string>
     <string name="winfxkliba_camera_ok">拍摄</string>
+    <string name="winfxkliba_openSourceTItle">开源致谢</string>
+    <string name="winfxkliba_back">返回</string>
 </resources>

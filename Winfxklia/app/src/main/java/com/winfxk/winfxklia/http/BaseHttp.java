@@ -5,11 +5,15 @@ package com.winfxk.winfxklia.http;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.winfxk.winfxklia.BaseActivity;
 import com.winfxk.winfxklia.Main;
+import com.winfxk.winfxklia.config.Config;
+import com.winfxk.winfxklia.tool.Tool;
 import com.winfxk.winfxklia.tool.Utils;
 import com.winfxk.winfxklia.tool.able.Tabable;
 
@@ -21,21 +25,66 @@ import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("unused")
-@SuppressLint("BadHostnameVerifier")
+@SuppressLint({"BadHostnameVerifier", "HardwareIds"})
 public class BaseHttp implements Tabable, TrustManager, HostnameVerifier {
     protected final List<String> saveCookies = new ArrayList<>();
     protected final List<String> cookies = new ArrayList<>();
-    private static final int passd = 1998;
+    private int passd = 1998;
     private int ConnectTimeout = 15000;
     private String encoding = "UTF-8";
     private int ReadTimeout = 60000;
     private static File file = null;
     protected final Context context;
     private Type type;
+    private static final Parameter defPost = new Parameter();
+    private static String SessionID = null;
+
+    public void initializeSessionID(Context context) {
+        if (SessionID != null) return;
+        long bitlength = 0;
+        try {
+            String sid = Settings.Secure.ANDROID_ID;
+            for (int i = 0; i < sid.length(); i++) bitlength += sid.charAt(i);
+        } catch (Exception e) {
+            Log.e(getTAG(), "生成SessionID时出错", e);
+            bitlength = 33442;
+        }
+        File dir = Build.VERSION.SDK_INT >= 24 ? context.getDataDir() : context.getFilesDir();
+        Config config = new Config(new File(dir, "session.wxk"), (int) (bitlength > 65535 ? bitlength % 65535 : bitlength));
+        String session = config.getString("sessionID");
+        if (session == null || session.isEmpty()) {
+            Calendar calendar = Calendar.getInstance();
+            long time = Math.max(calendar.get(Calendar.YEAR), 1L) * Math.max(calendar.get(Calendar.MONTH) + 1, 1) * Math.max(calendar.get(Calendar.DAY_OF_MONTH), 1);
+            while (time < 10000000) time = time * (Tool.getRand(10, 20) / Tool.getRand(1, 9));
+            session = Tool.CompressNumber(System.currentTimeMillis())
+                    + "-" + Tool.CompressNumber(Tool.getRand(1000000, Integer.MAX_VALUE))
+                    + "-" + Tool.CompressNumber(time) +
+                    "-" + Tool.CompressNumber(Tool.getRand(1000000, Integer.MAX_VALUE))
+                    + "-" + Tool.CompressNumber(bitlength);
+            Log.i(getTAG(), "已生成SessionID：" + session);
+            config.set("sessionID", session).save();
+        } else Log.i(getTAG(), "以获取SessionID：" + session);
+        SessionID = session;
+    }
+
+    public static Parameter setDefPost(String key, Object value) {
+        defPost.add(key, value);
+        return defPost;
+    }
+
+    public static Parameter setDefPost(Parameter parameter) {
+        defPost.putAll(parameter);
+        return defPost;
+    }
+
+    public static Parameter getDefPost() {
+        return defPost;
+    }
 
     public BaseHttp(Context context) {
         this(context, null);
@@ -50,12 +99,52 @@ public class BaseHttp implements Tabable, TrustManager, HostnameVerifier {
     }
 
     public BaseHttp(Context context, List<String> cookies) {
-        if (context != null && context.getDataDir() != null) {
-            if (file == null) file = new File(context.getDataDir(), "Cookies/");
+        File dir = context == null ? null : Build.VERSION.SDK_INT >= 24 ? context.getDataDir() : context.getFilesDir();
+        if (context != null && dir != null) {
+            if (file == null) file = new File(dir, "Cookies/");
         } else if (cookies == null || cookies.isEmpty()) Log.w(getTAG(), "无法获取上下文信息，Cookie不可用！");
+        if (!(context == null)) initializeSessionID(context);
         if (cookies != null) this.cookies.addAll(cookies);
         this.context = context;
+        setPassd();
         Log.i(getTAG(), "已" + (context == null ? "" : "为 " + context.getClass().getSimpleName()) + "创建" + getClass().getSimpleName() + "实例");
+    }
+
+    private int getPassd() {
+        return passd;
+    }
+
+    private void setPassd() {
+        if (context != null) try {
+            String string = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            if (string.length() > 6) string = string.substring(string.length() - 6);
+            if (string.contains("-")) string = string.substring(string.lastIndexOf("-") + 1);
+            long loid = Tool.UnCompressNumber(filterString(string)) + passd;
+            try {
+                String name = context.getPackageName();
+                if (name.length() > 6) name = name.substring(name.length() - 6);
+                loid += Tool.UnCompressNumber(filterString(name));
+            } catch (Exception e) {
+                Log.e(getTAG(), e.getMessage(), e);
+            }
+            passd = (int) (loid / 2 % 65534);
+        } catch (Exception e) {
+            Log.e(getTAG(), e.getMessage(), e);
+        }
+    }
+
+    private String filterString(String name) {
+        StringBuilder filtered = new StringBuilder();
+        for (char c : name.toCharArray())
+            if (containsChar(c))
+                filtered.append(c);
+        return filtered.toString();
+    }
+
+    private boolean containsChar(char c) {
+        for (char validChar : Tool.digits)
+            if (c == validChar) return true;
+        return false;
     }
 
     /**
@@ -219,8 +308,8 @@ public class BaseHttp implements Tabable, TrustManager, HostnameVerifier {
         return content.toString();
     }
 
-    private static char getCharLinkPasswd(char string) {
-        int result = string + passd;
+    private char getCharLinkPasswd(char string) {
+        int result = string + getPassd();
         if (result > 0xffff) result = 0xffff - result;
         return (char) result;
     }
@@ -231,15 +320,15 @@ public class BaseHttp implements Tabable, TrustManager, HostnameVerifier {
      * @param content 需要反混淆的字符串
      * @return 反序列化的对象F
      */
-    private static JSONArray readText(String content) {
+    private JSONArray readText(String content) {
         int length = content.length();
         StringBuilder json = new StringBuilder();
         for (int i = 0; i < length; i++) json.append(getCharsubPasswd(content.charAt(i)));
         return JSONArray.parseArray(json.toString());
     }
 
-    private static char getCharsubPasswd(int c) {
-        int result = c - passd;
+    private char getCharsubPasswd(int c) {
+        int result = c - getPassd();
         if (result < 0) result = 0xffff + result;
         return (char) result;
     }
@@ -276,6 +365,10 @@ public class BaseHttp implements Tabable, TrustManager, HostnameVerifier {
         connection.setReadTimeout(getReadTimeout());
         if (type != null) connection.setRequestMethod(type.getType());
         connection.setRequestProperty("Connection", " keep-alive");
+        connection.setRequestProperty("Application-package", context.getPackageName());
+        connection.setRequestProperty("Application-name", context.getApplicationInfo().name);
+        connection.setRequestProperty("Winfxk-SessionID", SessionID);
+        connection.setRequestProperty("Device-ID", Settings.Secure.ANDROID_ID);
         connection.setRequestProperty("Request-tool", "Winfxk's Winfxklia Android Runtime Library by version " + Main.version + " - http://winfxk.cn");
         connection.setRequestProperty("Authorization", "Bearer da3efcbf-0845-4fe3-8aba-ee040be542c0");
         connection.setRequestProperty("Content-Type", " application/x-www-form-urlencoded; charset=" + getEncoding());

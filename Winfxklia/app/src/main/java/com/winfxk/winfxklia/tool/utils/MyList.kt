@@ -3,6 +3,7 @@
   Date: 2024/7/17  上午8:43*/
 package com.winfxk.winfxklia.tool.utils
 
+import com.alibaba.fastjson2.JSON
 import com.alibaba.fastjson2.JSONArray
 import com.winfxk.winfxklia.tool.Tool
 import java.math.BigDecimal
@@ -80,7 +81,7 @@ class MyList<T>() : ArrayList<T>() {
     }
 
     fun toJsonString(): String {
-        return JSONArray.toJSONString(this);
+        return JSON.toJSONString(this);
     }
 
     fun toJsonArray(): JSONArray {

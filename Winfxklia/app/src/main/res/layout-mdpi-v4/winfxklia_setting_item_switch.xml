@@ -11,7 +11,7 @@
 
         <com.winfxk.winfxklia.view.ImageView
                 android:padding="@dimen/winfxkliba_setting_item_switch_padding"
-                android:src="@drawable/winfxkliba_info"
+                android:src="@drawable/winfxkliba_info2"
                 android:contentDescription="@string/winfxklia_app_name"
                 android:id="@+id/imageView1"
                 android:layout_width="@dimen/winfxkliba_setting_item_height"

@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.winfxk.winfxklia.R;
 import com.winfxk.winfxklia.tool.Tool;
 
@@ -22,7 +21,28 @@ import com.winfxk.winfxklia.tool.Tool;
 @SuppressWarnings("unused")
 @SuppressLint("InflateParams")
 public class Toast {
-    public static final int[] Images = {R.drawable.winfxkliba_toast_icon1, R.drawable.winfxkliba_toast_icon2, R.drawable.winfxkliba_toast_icon3, R.drawable.winfxkliba_toast_icon4};
+    public static final int[] Images1 = {
+            R.drawable.winfxkliba_toast_icon1, R.drawable.winfxkliba_toast_icon2,
+            R.drawable.winfxkliba_toast_icon3, R.drawable.winfxkliba_toast_icon4,
+            R.drawable.winfxkliba_toast_icon5, R.drawable.winfxkliba_toast_icon6,
+            R.drawable.winfxkliba_toast_icon7, R.drawable.winfxkliba_toast_icon8,
+            R.drawable.winfxkliba_toast_icon9, R.drawable.winfxkliba_toast_icon10,
+            R.drawable.winfxkliba_toast_icon11, R.drawable.winfxkliba_toast_icon12,
+            R.drawable.winfxkliba_toast_icon13, R.drawable.winfxkliba_toast_icon14,
+            R.drawable.winfxkliba_toast_icon15, R.drawable.winfxkliba_toast_icon16,
+            R.drawable.winfxkliba_toast_icon17, R.drawable.winfxkliba_toast_icon18,
+            R.drawable.winfxkliba_toast_icon19, R.drawable.winfxkliba_toast_icon20};
+    public static final int[] Images2 = {
+            R.drawable.winfxkliba_toast1_icon1, R.drawable.winfxkliba_toast1_icon2,
+            R.drawable.winfxkliba_toast1_icon3, R.drawable.winfxkliba_toast1_icon4,
+            R.drawable.winfxkliba_toast1_icon5, R.drawable.winfxkliba_toast1_icon6,
+            R.drawable.winfxkliba_toast1_icon7, R.drawable.winfxkliba_toast1_icon8,
+            R.drawable.winfxkliba_toast1_icon9, R.drawable.winfxkliba_toast1_icon10,
+            R.drawable.winfxkliba_toast1_icon11, R.drawable.winfxkliba_toast1_icon12,
+            R.drawable.winfxkliba_toast1_icon13, R.drawable.winfxkliba_toast1_icon14,
+            R.drawable.winfxkliba_toast1_icon15, R.drawable.winfxkliba_toast1_icon16,
+            R.drawable.winfxkliba_toast1_icon17, R.drawable.winfxkliba_toast1_icon18,
+            R.drawable.winfxkliba_toast1_icon19, R.drawable.winfxkliba_toast1_icon20};
     public static final int LENGTH_SHORT = 0;
     public static final int LENGTH_LONG = 1;
     private ImageView imageView, imageView1;
@@ -52,7 +72,6 @@ public class Toast {
 
     /**
      * 获取显示的图片视图1的对象
-     *
      */
     public ImageView getImageView() {
         return imageView;
@@ -263,10 +282,10 @@ public class Toast {
      * 设置随机图片跟随
      */
     public void setRandImage() {
-        int r = Images[Tool.getRand(0, Images.length - 1)];
-        int r2 = Images[Tool.getRand(0, Images.length - 1)];
-        while (r == r2)
-            r2 = Images[Tool.getRand(0, Images.length - 1)];
+        int[] Images1 = Tool.getRand(1, 2) == 1 ? Toast.Images1 : Images2;
+        int r = Images1[Tool.getRand(0, Images1.length - 1)];
+        int r2 = Images1[Tool.getRand(0, Images1.length - 1)];
+        while (r == r2) r2 = Images1[Tool.getRand(0, Images1.length - 1)];
         getImageView().setImageResource(r);
         getImageView1().setImageResource(r2);
     }

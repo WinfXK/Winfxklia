@@ -23,7 +23,7 @@ public class ImageUtils {
      * @param file  保存文件的完整路径。
      */
     public static void saveBitmapToFile(BaseActivity activity, Image image, File file) throws IOException {
-        saveBitmapToFile(activity, image, file, Bitmap.CompressFormat.JPEG, 100);
+        saveBitmapToFile(activity, image, file, Bitmap.CompressFormat.PNG, 100);
     }
 
     /**
@@ -33,7 +33,7 @@ public class ImageUtils {
      * @param file   保存文件的完整路径。
      */
     public static void saveBitmapToFile(BaseActivity activity, Bitmap bitmap, File file) throws IOException {
-        saveBitmapToFile(activity, bitmap, file, Bitmap.CompressFormat.JPEG, 100);
+        saveBitmapToFile(activity, bitmap, file, Bitmap.CompressFormat.PNG, 100);
     }
 
     /**

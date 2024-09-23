@@ -12,6 +12,7 @@ import android.graphics.*;
 import android.hardware.camera2.*;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import com.winfxk.winfxklia.BaseActivity;
 import com.winfxk.winfxklia.dialog.MyBuilder;
@@ -31,7 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class Camera2Helper implements Tabable {
     protected final BaseActivity main;
     protected final AutoFitTextureView preview;
@@ -146,6 +148,7 @@ public class Camera2Helper implements Tabable {
      */
     @SuppressLint("MissingPermission")
     protected void openCamera(int width, int height) {
+        
         if (ActivityCompat.checkSelfPermission(main, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission();
             return;
@@ -189,6 +192,7 @@ public class Camera2Helper implements Tabable {
      */
     @SuppressWarnings("SuspiciousNameCombination")
     private void setUpCameraOutputs(int width, int height) {
+        
         CameraManager manager = (CameraManager) main.getSystemService(Context.CAMERA_SERVICE);
         if (manager == null) return;
         try {
@@ -272,6 +276,7 @@ public class Camera2Helper implements Tabable {
      * @param viewHeight The height of `mTextureView`
      */
     protected void configureTransform(int viewWidth, int viewHeight) {
+        
         if (null == mPreviewSize) return;
         int rotation = main.getWindowManager().getDefaultDisplay().getRotation();
         Matrix matrix = new Matrix();
@@ -293,6 +298,7 @@ public class Camera2Helper implements Tabable {
      * Closes the current {@link CameraDevice}.
      */
     public void closeCamera() {
+        
         stopBackgroundThread();
         try {
             mCameraOpenCloseLock.acquire();
@@ -427,6 +433,6 @@ public class Camera2Helper implements Tabable {
 
     @Override
     public String getTAG() {
-        return main.getTAG() + " Camera" ;
+        return main.getTAG() + " Camera";
     }
 }

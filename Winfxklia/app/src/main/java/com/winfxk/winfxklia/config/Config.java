@@ -206,7 +206,7 @@ public class Config implements Tabable {
      * @return 键对应的对象或null。
      */
     public Object get(String key) {
-        return data.getOrDefault(key, null);
+        return data.get(key);
     }
 
     /**
@@ -360,10 +360,9 @@ public class Config implements Tabable {
     public Config removeValue(Object value) {
         if (data.containsValue(value)) {
             List<Map.Entry<String, Object>> list = new ArrayList<>(data.entrySet());
-            list.parallelStream().forEach(entry -> {
+            for (Map.Entry<String, Object> entry : list)
                 if (entry.getValue().equals(value))
                     data.remove(entry.getKey());
-            });
         }
         return this;
     }

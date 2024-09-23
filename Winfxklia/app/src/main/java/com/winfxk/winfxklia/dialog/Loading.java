@@ -18,8 +18,8 @@ import com.winfxk.winfxklia.tool.Tool;
 import com.winfxk.winfxklia.view.ImageView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
@@ -208,7 +208,7 @@ public class Loading extends BaseBuilder implements ImageView.ImageViewListener 
     }
 
     public Loading setIcon(File file) throws IOException {
-        return setIcon(BitmapFactory.decodeStream(Files.newInputStream(file.toPath())));
+        return setIcon(BitmapFactory.decodeStream(new FileInputStream(file)));
     }
 
     @Override
