@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="winfxklia_dialog_size1">50dp</dimen>
+    <dimen name="winfxklia_dialog_size2">40dp</dimen>
+    <dimen name="winfxklia_dialog_paddingSE">5dp</dimen>
+    <dimen name="winfxklia_dialog_paddingTB">10dp</dimen>
+    <dimen name="winfxklia_dialog_minHeight">100dp</dimen>
+    <dimen name="winfxklia_dialog_text_size">18sp</dimen>
+    <dimen name="winfxklia_dialog_title_size">20sp</dimen>
+    <dimen name="winfxklia_dialog_marginTop">25dp</dimen>
+    <dimen name="winfxklia_dialog_line_height">1dp</dimen>
+    <dimen name="winfxklia_dialog_button_size">50dp</dimen>
+</resources>

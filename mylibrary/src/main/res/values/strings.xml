@@ -1,0 +1,11 @@
+<resources>
+    <string name="winfxklia_app_name">Winfxklia</string>
+    <string name="winfxklia_confirm">确定</string>
+    <string name="winfxklia_cancel">取消</string>
+    <string name="winfxklia_exit">退出</string>
+    <string name="winfxklia_info">提示</string>
+    <string name="winfxklia_empty">""</string>
+    <string name="winfxklia_camera_ok">拍摄</string>
+    <string name="winfxklia_back">返回</string>
+    <string name="winfxklia_clear_button">清空按钮</string>
+</resources>

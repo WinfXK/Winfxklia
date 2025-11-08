@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright Notice
+  ~
+  ~ © [2024] Winfxk. All rights reserved.
+  ~
+  ~ The software, its source code, and all related documentation are the intellectual property of Winfxk. Any reproduction or distribution of this software or any part thereof must be clearly attributed to Winfxk and the original author. Unauthorized copying, reproduction, or distribution without proper attribution is strictly prohibited.
+  ~
+  ~ For inquiries, support, or to request permission for use, please contact us at:
+  ~ Email: admin@winfxk.cn
+  ~ QQ: 2508543202
+  ~ Visit our homepage for more information: http://Winfxk.cn
+  -->
+
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.0.90</domain>
+        <domain includeSubdomains="true">winfxk.cn</domain>
+
+        <domain includeSubdomains="true">192.168.38.115</domain>
+        <domain includeSubdomains="true">192.168.38.60</domain>
+
+        <domain includeSubdomains="true">192.168.29.154</domain>
+        <domain includeSubdomains="true">192.168.29.106</domain>
+        <domain includeSubdomains="true">192.168.29.33</domain>
+        <domain includeSubdomains="true">192.168.29.149</domain>
+        <domain includeSubdomains="true">192.168.29.93</domain>
+
+        <domain includeSubdomains="true">192.168.0.42</domain>
+        <domain includeSubdomains="true">192.168.0.82</domain>
+        <domain includeSubdomains="true">192.168.0.97</domain>
+        <domain includeSubdomains="true">192.168.0.99</domain>
+        <domain includeSubdomains="true">192.168.82.10</domain>
+        <domain includeSubdomains="true">192.168.0.65</domain>
+        <domain includeSubdomains="true">192.168.78.6</domain>
+        <domain includeSubdomains="true">192.168.82.11</domain>
+        <domain includeSubdomains="true">192.168.29.200</domain>
+    </domain-config>
+</network-security-config>

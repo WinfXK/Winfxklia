@@ -1,0 +1,29 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="winfxklia_alert_dialog1" parent="winfxklia_dialog">
+        <item name="android:windowEnterAnimation">@anim/winfxklia_actionsheet_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/winfxklia_actionsheet_dialog_out</item>
+    </style>
+
+    <style name="winfxklia_alert_dialog2" parent="winfxklia_dialog">
+        <item name="android:windowEnterAnimation">@anim/winfxklia_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/winfxklia_dialog_out</item>
+    </style>
+
+    <style name="winfxklia_dialog" parent="android:Theme.Dialog">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowAnimationStyle">@android:anim/accelerate_decelerate_interpolator</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.4</item>
+    </style>
+
+    <style name="winfxklia_listDialog" parent="winfxklia_dialog">
+        <item name="android:gravity">bottom</item>
+        <item name="android:windowEnterAnimation">@anim/winfxklia_listdialog_in</item>
+        <item name="android:windowExitAnimation">@anim/winfxklia_listdialog_out</item>
+    </style>
+</resources>

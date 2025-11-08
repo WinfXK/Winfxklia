@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/scrollView1"
+        android:background="@color/winfxklia_transparent"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/winfxklia_dialog_paddingTB"
+        android:layout_marginTop="@dimen/winfxklia_dialog_paddingTB"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/winfxklia_dialog_backg"
+            android:gravity="center"
+            android:clipChildren="true"
+            android:clipToPadding="true">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_alignParentTop="true"
+                android:id="@id/line1"
+                android:orientation="horizontal"
+                android:layout_height="@dimen/winfxklia_dialog_size1">
+
+
+            <RelativeLayout
+                    android:layout_width="@dimen/winfxklia_dialog_size1"
+                    android:padding="@dimen/winfxklia_dialog_paddingTB"
+                    android:id="@+id/line4"
+                    android:layout_height="@dimen/winfxklia_dialog_size1">
+
+                <ProgressBar
+                        android:alpha="0"
+                        android:layout_height="match_parent"
+                        android:id="@+id/progressBar"
+                        android:layout_width="match_parent"
+                        android:contentDescription="@string/winfxklia_app_name"
+                        style="@android:style/Widget.Material.ProgressBar"
+                        tools:ignore="NewApi" />
+
+                <cn.winfxk.android.mylibrary.view.ImageView
+                        android:layout_width="match_parent"
+                        android:id="@+id/imageView1"
+                        android:src="@drawable/winfxklia_message"
+                        android:scaleType="fitCenter"
+                        android:layout_height="match_parent" />
+            </RelativeLayout>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_gravity="top"
+                    android:layout_height="wrap_content"
+                    android:text="@string/winfxklia_app_name"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/winfxklia_dialog_title_size"
+                    android:paddingTop="@dimen/winfxklia_dialog_paddingTB"
+                    android:paddingBottom="@dimen/winfxklia_dialog_paddingTB"
+                    android:paddingStart="@dimen/winfxklia_dialog_paddingSE"
+                    android:textColor="@color/winfxklia_black"
+                    android:paddingEnd="@dimen/winfxklia_dialog_paddingSE"
+                    android:gravity="center_vertical|start"
+                    android:id="@+id/textView1" />
+        </LinearLayout>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/winfxklia_dialog_line_height"
+                android:layout_below="@+id/line1"
+                android:id="@+id/textView2"
+                android:background="@color/winfxklia_dialog_title_line" />
+
+        <RelativeLayout
+                android:layout_below="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/winfxklia_dialog_minHeight"
+                android:id="@+id/view">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView3"
+                    android:textColor="@color/winfxklia_black"
+                    android:textSize="@dimen/winfxklia_dialog_text_size"
+                    android:gravity="top|start"
+                    android:padding="@dimen/winfxklia_dialog_paddingSE" />
+        </RelativeLayout>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/winfxklia_dialog_line_height"
+                android:layout_below="@+id/view"
+                android:id="@+id/textView4"
+                android:background="@color/winfxklia_dialog_button_line" />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/line2"
+                android:layout_height="@dimen/winfxklia_dialog_size1"
+                android:layout_below="@id/textView4"
+                android:orientation="horizontal">
+
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

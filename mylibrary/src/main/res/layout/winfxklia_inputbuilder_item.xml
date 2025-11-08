@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView1"
+        android:orientation="horizontal"
+        android:background="@color/winfxklia_transparent"
+        android:layout_width="match_parent"
+        android:gravity="start|center_vertical"
+        android:layout_marginTop="@dimen/winfxklia_dialog_paddingSE"
+        android:layout_height="@dimen/winfxklia_dialog_size1">
+
+    <cn.winfxk.android.mylibrary.view.ImageView
+            android:layout_width="@dimen/winfxklia_dialog_size1"
+            android:layout_height="@dimen/winfxklia_dialog_size1"
+            android:id="@+id/imageView1"
+            android:padding="@dimen/winfxklia_dialog_paddingSE"
+            android:src="@drawable/winfxklia_message"
+            android:contentDescription="@string/winfxklia_app_name" />
+
+    <TextView
+            android:id="@+id/textView1"
+            android:textStyle="bold"
+            android:textColor="@color/winfxklia_black"
+            android:gravity="center"
+            android:text="@string/winfxklia_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/winfxklia_dialog_size1" />
+
+    <EditText
+            android:layout_marginStart="@dimen/winfxklia_dialog_paddingSE"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/winfxklia_dialog_size1"
+            android:id="@+id/editText1"
+            android:inputType="text"
+            style="@style/Widget.AppCompat.EditText"
+            android:hint="@string/winfxklia_app_name"
+            android:labelFor="@id/imageView1"
+            android:textColor="@color/winfxklia_black"
+            android:gravity="start|center_vertical" />
+
+    <ImageButton
+            android:id="@+id/imageButton1"
+            android:contentDescription="@string/winfxklia_clear_button"
+            android:layout_width="@dimen/winfxklia_dialog_size1"
+            android:layout_height="@dimen/winfxklia_dialog_size1"
+            android:background="@drawable/winfxklia_dialog_button"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/winfxklia_dialog_paddingTB"
+            android:src="@drawable/winfxklia_clear" />
+</LinearLayout>
