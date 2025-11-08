@@ -30,8 +30,8 @@ class MainActivity : BaseActivity() {
     override fun initializeView() {
         val builder = InputBuilder(this);
         builder.message = "请输入用户名和密码！"
-        val user = builder.add("user", "请输入用户名")
-        val passwd = builder.add("passwd", "请输入密码")
+        val user = builder.add("user", "请输入用户名", "用户名")
+        val passwd = builder.add("passwd", "请输入密码", icon = cn.winfxk.android.mylibrary.R.drawable.winfxklia_succeed)
         builder.addButton("确定") {
             val username = user.text;
             if (username.isBlank()) {

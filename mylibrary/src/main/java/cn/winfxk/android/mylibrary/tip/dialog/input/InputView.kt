@@ -17,24 +17,13 @@ package cn.winfxk.android.mylibrary.tip.dialog.input
 
 import android.view.View
 import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
 import cn.winfxk.android.mylibrary.R
-import cn.winfxk.android.mylibrary.view.ImageView
+import com.google.android.material.textfield.TextInputLayout
 import kotlin.lazy
 
-class InputView(val key: String, val builder: InputBuilder) : View.OnClickListener {
+class InputView(val key: String, val builder: InputBuilder) {
     val view: View by lazy { View.inflate(builder.context, R.layout.winfxklia_inputbuilder_item, null) }
-    val imageView: ImageView by lazy { view.findViewById(R.id.imageView1) }
-    val textView: TextView by lazy { view.findViewById(R.id.textView1) }
+    val textInputLayout: TextInputLayout by lazy { view.findViewById(R.id.text_input_layout) }
     val editText: EditText by lazy { view.findViewById(R.id.editText1) }
-    val clearView: ImageButton by lazy { view.findViewById(R.id.imageButton1) }
-    val text: String get() = editText.text.toString()
-    override fun onClick(v: View?) {
-        editText.setText("")
-    }
-
-    init {
-        clearView.setOnClickListener(this)
-    }
+    val text :String get() = editText.text.toString()
 }

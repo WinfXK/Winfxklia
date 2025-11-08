@@ -10,4 +10,5 @@
     <dimen name="winfxklia_dialog_marginTop">25dp</dimen>
     <dimen name="winfxklia_dialog_line_height">1dp</dimen>
     <dimen name="winfxklia_dialog_button_size">50dp</dimen>
+    <dimen name="design_text_input_icon_size_fallback">24dp</dimen>
 </resources>

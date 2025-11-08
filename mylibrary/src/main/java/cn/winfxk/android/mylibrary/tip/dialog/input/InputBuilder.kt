@@ -1,3 +1,18 @@
+/*
+* Copyright Notice
+* © [2024 - 2025] Winfxk. All rights reserved.
+* The software, its source code, and all related documentation are the intellectual property of Winfxk. Any reproduction or distribution of this software or any part thereof must be clearly attributed to Winfxk and the original author. Unauthorized copying, reproduction, or distribution without proper attribution is strictly prohibited.
+* For inquiries, support, or to request permission for use, please contact us at:
+* Email: admin@winfxk.cn
+* QQ: 2508543202
+* Visit our homepage for more information: http://Winfxk.cn
+*
+* --------- Create message ---------
+* Created by IntelliJ ID
+* Author： Winfxk
+* Web: http://winfxk.com
+* Created Date: 2025/11/08 16:05
+*/
 package cn.winfxk.android.mylibrary.tip.dialog.input
 
 import android.animation.ObjectAnimator
@@ -11,12 +26,15 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.toDrawable
 import cn.winfxk.android.mylibrary.R
 import cn.winfxk.android.mylibrary.tip.dialog.BaseBuilder
 import cn.winfxk.android.mylibrary.tip.dialog.BuilderException
 import cn.winfxk.android.mylibrary.tip.dialog.MyBuilder.Companion.empIntarray
 import cn.winfxk.android.mylibrary.tip.dialog.Type
+import cn.winfxk.android.mylibrary.utils.image.BitmapUtils
 import cn.winfxk.android.mylibrary.view.ImageView
+import com.google.android.material.textfield.TextInputLayout
 import com.winfxk.lib.utils.toARGB
 import java.util.concurrent.ConcurrentHashMap
 
@@ -35,6 +53,8 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
     private val messageView: TextView by lazy { findViewById(R.id.textView3) }
     override fun getLayoutId(): Int = R.layout.winfxklia_inputbuilder
     private val clickListener = ArrayList<InputClickListener>();
+    private val iconSize by lazy { context.resources.getDimensionPixelSize(R.dimen.winfxklia_dialog_size1) }
+    private val iconPadding by lazy { context.resources.getDimensionPixelSize(R.dimen.winfxklia_dialog_paddingTB) }
     @Volatile private var lastSetMessageTime = 0L;
     /**
      * 设置标题类型
@@ -109,7 +129,6 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
      * @return 构建的视图
      */
     fun add(key: String, hint: String, text: String? = null): InputView = setupInternal(key, hint, text, null)
-
     /**
      * 添加一个输入框
      *
@@ -119,7 +138,10 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
      * @param text 输入框前面需要显示的文本 (可选)
      * @return 构建的视图
      */
-    fun add(key: String, hint: String, @DrawableRes icon: Int, text: String? = null): InputView = setupInternal(key, hint, text) { it.setImageResource(icon) }
+    fun add(key: String, hint: String, @DrawableRes icon: Int, text: String? = null): InputView = setupInternal(key, hint, text) {
+        it.startIconScaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+        it.startIconDrawable = BitmapUtils.scaleBitmap(BitmapUtils.addTransparentPadding(BitmapUtils.scaleBitmap(BitmapUtils.drawableToBitmap(context.getDrawable(icon) !!), iconSize, iconSize), iconPadding), iconSize, iconSize).toDrawable(context.resources)
+    }
 
     /**
      * 添加一个输入框
@@ -130,24 +152,27 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
      * @param text 输入框前面需要显示的文本 (可选)
      * @return 构建的视图
      */
-    fun add(key: String, hint: String, icon: Bitmap, text: String? = null): InputView = setupInternal(key, hint, text) { it.setImageBitmap(icon) }
+    fun add(key: String, hint: String, icon: Bitmap, text: String? = null): InputView = setupInternal(key, hint, text) {
+        it.startIconScaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+        it.startIconDrawable = BitmapUtils.scaleBitmap(BitmapUtils.addTransparentPadding(BitmapUtils.scaleBitmap(icon, iconSize, iconSize), iconPadding), iconSize, iconSize).toDrawable(context.resources)
+    }
+
+
     private fun setupInternal(
         key: String,
         hint: String,
         text: String?,
-        iconSetter: ((ImageView) -> Unit)?
+        iconSetter: ((TextInputLayout) -> Unit)?
     ): InputView {
         val view = InputView(key, this)
-        if (iconSetter != null) {
-            iconSetter(view.imageView)
-            view.imageView.visibility = View.VISIBLE
-        } else view.imageView.visibility = View.GONE
-        if (text.isNullOrBlank()) view.textView.visibility = View.GONE
+        view.textInputLayout.hint = hint
+        if (text.isNullOrBlank()) view.textInputLayout.prefixText = null
+        else view.textInputLayout.prefixText = text
+        if (iconSetter != null) iconSetter(view.textInputLayout)
         else {
-            view.textView.text = text
-            view.textView.visibility = View.VISIBLE
+            view.textInputLayout.startIconDrawable = null
+            view.textInputLayout.startIconScaleType = android.widget.ImageView.ScaleType.FIT_CENTER
         }
-        view.editText.setHint(hint)
         return add(view)
     }
     /**
