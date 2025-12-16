@@ -35,6 +35,10 @@ android {
 }
 
 dependencies {
+    implementation(libs.camera.core)
+    implementation(libs.camera.camera)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.view)
     implementation(libs.okhttp)
     implementation(libs.winfxklib)
     implementation(libs.kotlinx.coroutines.android)

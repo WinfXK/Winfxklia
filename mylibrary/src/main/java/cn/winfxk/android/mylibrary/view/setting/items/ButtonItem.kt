@@ -12,18 +12,34 @@
 * Author： Winfxk
 * Created PCUser: Winfx 
 * Web: http://winfxk.com
-* Created Date: 2025/11/4  16:21 */
-package cn.winfxk.android.mylibrary.tip.dialog
+* Created Date: 2025/12/12  11:00 */
+package cn.winfxk.android.mylibrary.view.setting.items
 
-import android.content.Context
 import android.view.View
-import android.widget.RelativeLayout
+import android.widget.TextView
 import cn.winfxk.android.mylibrary.R
 
-abstract class EmptyBuilder(context: Context) : BaseBuilder(context, R.layout.winfxklia_emptybuilder) {
-    private val rl: RelativeLayout by lazy { findViewById(R.id.line1) }
-    fun setView(view: View) {
-        rl.removeAllViews();
-        rl.addView(view);
+class ButtonItem(private val title: String, val click: SettingItemClickListener) : BaseItem(title, empGet, empSet) {
+    override val view: View by lazy { View.inflate(context, R.layout.winfxklia_basesettings_item_button, null) }
+    val button: TextView by lazy { view.findViewById(R.id.button1) }
+    override var text: String
+        get() = button.text.toString()
+        set(value) {
+            button.setText(value)
+        }
+
+    override fun reloadValue() {
+    }
+
+    override fun init() {
+        this.text = title
+    }
+
+    override fun onItemClick() {
+        super.onItemClick()
+        click.invoke(this)
+    }
+
+    override fun save() {
     }
 }

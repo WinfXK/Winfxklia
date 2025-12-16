@@ -8,7 +8,13 @@
     <dimen name="winfxklia_dialog_text_size">18sp</dimen>
     <dimen name="winfxklia_dialog_title_size">20sp</dimen>
     <dimen name="winfxklia_dialog_marginTop">25dp</dimen>
-    <dimen name="winfxklia_dialog_line_height">1dp</dimen>
-    <dimen name="winfxklia_dialog_button_size">50dp</dimen>
-    <dimen name="design_text_input_icon_size_fallback">24dp</dimen>
+    <dimen name="winfxkliaDialoglineHeight">1dp</dimen>
+    <dimen name="winfxkliaDialogButtonSize">50dp</dimen>
+    <dimen name="winfxkliaDesigntextInputIconSizeFallback">24dp</dimen>
+    <dimen name="winfxkliaBaseSettingsItemHeight">50dp</dimen>
+    <dimen name="winfxkliaBaseSettingsItemPS">5dp</dimen>
+    <dimen name="winfxkliaBaseSettingsItemTitleTextSize">18sp</dimen>
+    <dimen name="winfxkliaBaseSettingsItemTitleTextSizeByLine">10sp</dimen>
+    <dimen name="winfxkliaBaseSettingsItemValueMinWidth">50dp</dimen>
+    <dimen name="winfxkliaBaseSettingsItemPS2">15dp</dimen>
 </resources>

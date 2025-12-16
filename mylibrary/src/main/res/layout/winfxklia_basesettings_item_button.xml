@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/winfxkliaBaseSettingsItemHeight"
+        android:paddingStart="@dimen/winfxkliaBaseSettingsItemPS"
+        android:paddingEnd="@dimen/winfxkliaBaseSettingsItemPS"
+        android:descendantFocusability="blocksDescendants">
+
+    <TextView
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/winfxkliaBaseSettingsItemHeight"
+            android:text="@string/winfxklia_app_name"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="@dimen/winfxkliaBaseSettingsItemTitleTextSize"
+            android:background="@drawable/winfxklia_transparency_button"
+            android:textColor="@color/winfxklia_black" />
+</LinearLayout>

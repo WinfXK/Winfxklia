@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:padding="@dimen/winfxkliaBaseSettingsItemPS"
+        android:layout_height="@dimen/winfxkliaBaseSettingsItemHeight">
+
+    <TextView
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="@color/winfxklia_black"
+            android:text="@string/winfxklia_app_name"
+            android:id="@+id/textView1"
+            android:textSize="@dimen/winfxkliaBaseSettingsItemTitleTextSize"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/winfxkliaBaseSettingsItemHeight" />
+
+    <TextView
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical"
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:minWidth="@dimen/winfxkliaBaseSettingsItemValueMinWidth"
+            android:textSize="@dimen/winfxkliaBaseSettingsItemTitleTextSize"
+            android:layout_height="@dimen/winfxkliaBaseSettingsItemHeight" />
+</RelativeLayout>

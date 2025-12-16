@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+            android:name="android.hardware.camera"
+            android:required="true" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <application>
+        <activity
+                android:name=".camera.WinCameraActivity"
+                android:screenOrientation="portrait" />
+        <provider
+                android:name=".camera.CameraLibFileProvider"
+                android:authorities="${applicationId}.winfxk.camera.provider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/camera_lib_file_paths" />
+        </provider>
+
+    </application>
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 </manifest>

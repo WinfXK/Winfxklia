@@ -12,18 +12,22 @@
 * Author： Winfxk
 * Created PCUser: Winfx 
 * Web: http://winfxk.com
-* Created Date: 2025/11/4  16:21 */
-package cn.winfxk.android.mylibrary.tip.dialog
+* Created Date: 2025/12/12  13:55 */
+package cn.winfxk.android.mylibrary.view.setting.items
 
-import android.content.Context
 import android.view.View
-import android.widget.RelativeLayout
 import cn.winfxk.android.mylibrary.R
 
-abstract class EmptyBuilder(context: Context) : BaseBuilder(context, R.layout.winfxklia_emptybuilder) {
-    private val rl: RelativeLayout by lazy { findViewById(R.id.line1) }
-    fun setView(view: View) {
-        rl.removeAllViews();
-        rl.addView(view);
+class EmptItem() : BaseItem("", empGet, empSet) {
+    override val view: View by lazy { View.inflate(context, R.layout.winfxklia_basesettings_item_empty, null) }
+    override var text: String = ""
+
+    override fun reloadValue() {
+    }
+
+    override fun init() {
+    }
+
+    override fun save() {
     }
 }

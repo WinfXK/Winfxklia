@@ -11,7 +11,7 @@
 * Created by IntelliJ ID
 * Author： Winfxk
 * Web: http://winfxk.com
-* Created Date: 2025/11/08 16:05
+* Created Date: 2025/11/08 17:00
 */
 package cn.winfxk.android.mylibrary.tip.dialog.input
 
@@ -19,6 +19,10 @@ import android.animation.ObjectAnimator
 import android.animation.StateListAnimator
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -32,11 +36,12 @@ import cn.winfxk.android.mylibrary.tip.dialog.BaseBuilder
 import cn.winfxk.android.mylibrary.tip.dialog.BuilderException
 import cn.winfxk.android.mylibrary.tip.dialog.MyBuilder.Companion.empIntarray
 import cn.winfxk.android.mylibrary.tip.dialog.Type
-import cn.winfxk.android.mylibrary.utils.image.BitmapUtils
+import cn.winfxk.android.mylibrary.utils.image.BitmapUtils // 导入你的 BitmapUtils
 import cn.winfxk.android.mylibrary.view.ImageView
 import com.google.android.material.textfield.TextInputLayout
 import com.winfxk.lib.utils.toARGB
 import java.util.concurrent.ConcurrentHashMap
+import androidx.core.graphics.createBitmap
 
 /**
  * 返回值决定是否关闭弹窗 true=关闭  false=不关闭
@@ -53,8 +58,13 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
     private val messageView: TextView by lazy { findViewById(R.id.textView3) }
     override fun getLayoutId(): Int = R.layout.winfxklia_inputbuilder
     private val clickListener = ArrayList<InputClickListener>();
-    private val iconSize by lazy { context.resources.getDimensionPixelSize(R.dimen.winfxklia_dialog_size1) }
-    private val iconPadding by lazy { context.resources.getDimensionPixelSize(R.dimen.winfxklia_dialog_paddingTB) }
+
+    /**
+     *  获取 Material 库定义的标准图标大小 (默认为 24dp)
+     * 我们将把 Bitmap 缩放到这个尺寸
+     */
+    private val iconSize: Int by lazy { context.resources.getDimensionPixelSize(R.dimen.winfxkliaDesigntextInputIconSizeFallback) }
+
     @Volatile private var lastSetMessageTime = 0L;
     /**
      * 设置标题类型
@@ -130,33 +140,42 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
      */
     fun add(key: String, hint: String, text: String? = null): InputView = setupInternal(key, hint, text, null)
     /**
-     * 添加一个输入框
-     *
-     * @param key 输入框的唯一ID
-     * @param hint 输入框的Hint
-     * @param icon 输入框前面需要显示的图标 (资源ID, 非空)
-     * @param text 输入框前面需要显示的文本 (可选)
-     * @return 构建的视图
+     * 添加一个输入框 (DrawableRes)
+     *  使用高效的 scaleBitmapToIconSize
      */
     fun add(key: String, hint: String, @DrawableRes icon: Int, text: String? = null): InputView = setupInternal(key, hint, text) {
-        it.startIconScaleType = android.widget.ImageView.ScaleType.FIT_CENTER
-        it.startIconDrawable = BitmapUtils.scaleBitmap(BitmapUtils.addTransparentPadding(BitmapUtils.scaleBitmap(BitmapUtils.drawableToBitmap(context.getDrawable(icon) !!), iconSize, iconSize), iconPadding), iconSize, iconSize).toDrawable(context.resources)
+        val drawable = AppCompatResources.getDrawable(context, icon)
+        if (drawable is BitmapDrawable) it.startIconDrawable = scaleBitmapToIconSize(drawable.bitmap)
+        else if (drawable != null) it.startIconDrawable = scaleBitmapToIconSize(BitmapUtils.drawableToBitmap(drawable))
     }
 
     /**
-     * 添加一个输入框
-     *
-     * @param key 输入框的唯一ID
-     * @param hint 输入框的Hint
-     * @param icon 输入框前面需要显示的图标 (Bitmap, 非空)
-     * @param text 输入框前面需要显示的文本 (可选)
-     * @return 构建的视图
+     * 添加一个输入框 (Bitmap)
+     *  使用高效的 scaleBitmapToIconSize
      */
     fun add(key: String, hint: String, icon: Bitmap, text: String? = null): InputView = setupInternal(key, hint, text) {
-        it.startIconScaleType = android.widget.ImageView.ScaleType.FIT_CENTER
-        it.startIconDrawable = BitmapUtils.scaleBitmap(BitmapUtils.addTransparentPadding(BitmapUtils.scaleBitmap(icon, iconSize, iconSize), iconPadding), iconSize, iconSize).toDrawable(context.resources)
+        it.startIconDrawable = scaleBitmapToIconSize(icon)
     }
 
+    /**
+     * 辅助方法：将 Bitmap 缩放并居中到一个固定大小 (iconSize) 的 Drawable 中
+     * 这模拟了 ImageView.ScaleType.FIT_CENTER，但只创建 *一个* Bitmap。
+     */
+    private fun scaleBitmapToIconSize(bitmap: Bitmap): BitmapDrawable {
+        val originalWidth = bitmap.width
+        val originalHeight = bitmap.height
+        if (originalWidth <= 0 || originalHeight <= 0) return bitmap.toDrawable(context.resources)
+        val scale = (iconSize.toFloat() / originalWidth).coerceAtMost(iconSize.toFloat() / originalHeight)
+        val newWidth = (originalWidth * scale).toInt()
+        val newHeight = (originalHeight * scale).toInt()
+        val left = (iconSize - newWidth) / 2f
+        val top = (iconSize - newHeight) / 2f
+        val targetRect = RectF(left, top, left + newWidth, top + newHeight)
+        val finalBitmap = createBitmap(iconSize, iconSize)
+        val canvas = Canvas(finalBitmap)
+        canvas.drawBitmap(bitmap, null, targetRect, Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG))
+        return finalBitmap.toDrawable(context.resources)
+    }
 
     private fun setupInternal(
         key: String,
@@ -169,10 +188,7 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
         if (text.isNullOrBlank()) view.textInputLayout.prefixText = null
         else view.textInputLayout.prefixText = text
         if (iconSetter != null) iconSetter(view.textInputLayout)
-        else {
-            view.textInputLayout.startIconDrawable = null
-            view.textInputLayout.startIconScaleType = android.widget.ImageView.ScaleType.FIT_CENTER
-        }
+        else view.textInputLayout.startIconDrawable = null
         return add(view)
     }
     /**
@@ -201,7 +217,7 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
      * 用于构建一个点击按钮
      */
     fun makeButton(text: String, color: Int): Button {
-        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, context.resources.getDimensionPixelSize(R.dimen.winfxklia_dialog_button_size), 1.0f)
+        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, context.resources.getDimensionPixelSize(R.dimen.winfxkliaDialogButtonSize), 1.0f)
         layoutParams.setMargins(0, 5, 0, 0)
         val button = Button(context, null)
         button.text = text

@@ -12,18 +12,20 @@
 * Author： Winfxk
 * Created PCUser: Winfx 
 * Web: http://winfxk.com
-* Created Date: 2025/11/4  16:21 */
-package cn.winfxk.android.mylibrary.tip.dialog
+* Created Date: 2025/12/12  09:42 */
+package cn.winfxk.android.mylibrary.view.setting.items
 
-import android.content.Context
-import android.view.View
-import android.widget.RelativeLayout
-import cn.winfxk.android.mylibrary.R
+import android.widget.TextView
 
-abstract class EmptyBuilder(context: Context) : BaseBuilder(context, R.layout.winfxklia_emptybuilder) {
-    private val rl: RelativeLayout by lazy { findViewById(R.id.line1) }
-    fun setView(view: View) {
-        rl.removeAllViews();
-        rl.addView(view);
+abstract class BaseTitleItem(private val title: String, get: GetValue, set: SetValue) : BaseItem(title, get, set) {
+    abstract val textView: TextView
+    override var text: String
+        get() = textView.text.toString()
+        set(value) {
+            textView.setText(value)
+        }
+
+    override fun init() {
+        this.text = title;
     }
 }

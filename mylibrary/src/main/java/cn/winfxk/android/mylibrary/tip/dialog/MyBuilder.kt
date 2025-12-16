@@ -191,7 +191,7 @@ open class MyBuilder(context: Context, type: Type = Type.Info) : BaseBuilder(con
      * 用于构建一个点击按钮
      */
     protected open fun makeButton(text: String, color: Int): Button {
-        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, context.resources.getDimensionPixelSize(R.dimen.winfxklia_dialog_button_size), 1.0f)
+        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, context.resources.getDimensionPixelSize(R.dimen.winfxkliaDialogButtonSize), 1.0f)
         layoutParams.setMargins(0, 5, 0, 0)
         val button = Button(context, null)
         button.text = text

@@ -45,7 +45,7 @@
 
         <TextView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/winfxklia_dialog_line_height"
+                android:layout_height="@dimen/winfxkliaDialoglineHeight"
                 android:layout_below="@+id/line1"
                 android:id="@+id/textView2"
                 android:background="@color/winfxklia_dialog_title_line" />
@@ -94,7 +94,7 @@
         </RelativeLayout>
         <TextView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/winfxklia_dialog_line_height"
+                android:layout_height="@dimen/winfxkliaDialoglineHeight"
                 android:layout_below="@+id/view"
                 android:id="@+id/textView4"
                 android:background="@color/winfxklia_dialog_button_line" />

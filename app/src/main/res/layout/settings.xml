@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher" />
+
+        <TextView
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_toEndOf="@id/imageView1"
+                android:text="@string/winfxklia_app_name"
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <ListView
+            android:id="@+id/listView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+</LinearLayout>
