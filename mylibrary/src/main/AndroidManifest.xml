@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -7,7 +8,10 @@
             android:name="android.hardware.camera"
             android:required="true" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <application>
+    <application
+            android:usesCleartextTraffic="true"
+            android:networkSecurityConfig="@xml/winfxklia_network_security_config"
+            tools:targetApi="24">
         <activity
                 android:name=".camera.WinCameraActivity"
                 android:screenOrientation="portrait" />
@@ -18,7 +22,7 @@
                 android:grantUriPermissions="true">
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/camera_lib_file_paths" />
+                    android:resource="@xml/winfxklia_camera_lib_file_paths" />
         </provider>
 
     </application>

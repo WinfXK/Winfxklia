@@ -1,2 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="ModernFloatingMenu">
+        <attr name="mainFabSize" format="enum">
+            <enum name="auto" value="-1" />
+            <enum name="normal" value="0" />
+            <enum name="mini" value="1" />
+        </attr>
+        <attr name="menuRotationAngle" format="float" />
+        <attr name="animationDuration" format="integer" />
+    </declare-styleable>
 </resources>

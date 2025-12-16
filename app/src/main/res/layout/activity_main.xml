@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
-            android:scaleType="fitCenter"
-            android:id="@+id/iv_preview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <Button
+            android:text="1"
+            android:layout_width="100dp"
+            android:layout_height="50dp" />
 
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_camera"
+    <cn.winfxk.android.mylibrary.view.menu.ModernFloatingMenu
+            android:id="@+id/floating_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+            android:layout_alignParentBottom="true"
+            android:text="2"
             android:layout_width="100dp"
             android:layout_height="50dp" />
 </RelativeLayout>

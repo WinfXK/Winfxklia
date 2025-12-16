@@ -18,10 +18,12 @@ package cn.winfxk.android.mylibrary
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.TypedValue
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
@@ -54,6 +56,10 @@ abstract class BaseActivity : AppCompatActivity(), ViewInitialize, Tabable {
         super.onDestroy()
         scope.cancel()
     }
+
+    val Int.dp: Int get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), resources.displayMetrics).toInt()
+
+    val Float.dp: Float get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, resources.displayMetrics)
 
     /**
      * 返回此页面启动时**必需**的权限清单。
@@ -89,19 +95,17 @@ abstract class BaseActivity : AppCompatActivity(), ViewInitialize, Tabable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (BaseActivity.resources == null) BaseActivity.resources = resources;
         if (enableFullScreen) setFullScreenImmersive()
         setContentView(getLayoutId())
         val requiredPermissions = getRequiredPermissions()
-        if (requiredPermissions.isEmpty()) {
-            performInitialization()
-        } else {
-            requestAppPermissionsInternal(
-                permissionsToRequest = requiredPermissions,
-                allowContinueOnFailure = allowContinueOnPermissionFailure,
-                onGranted = { performInitialization() },
-                onDenied = { deniedList -> onPermissionsDenied(deniedList) }
-            )
-        }
+        if (requiredPermissions.isEmpty()) performInitialization()
+        else requestAppPermissionsInternal(
+            permissionsToRequest = requiredPermissions,
+            allowContinueOnFailure = allowContinueOnPermissionFailure,
+            onGranted = { performInitialization() },
+            onDenied = { deniedList -> onPermissionsDenied(deniedList) }
+        )
     }
 
     private fun performInitialization() = initializeView()
@@ -129,9 +133,8 @@ abstract class BaseActivity : AppCompatActivity(), ViewInitialize, Tabable {
     ) {
         onPermissionsResultCallback = { results ->
             val allGranted = results.all { it.value }
-            if (allGranted) {
-                onGranted.invoke()
-            } else {
+            if (allGranted) onGranted.invoke()
+            else {
                 val deniedList = results.filter { ! it.value }.map { it.key }
                 onDenied?.invoke(deniedList)
                 if (allowContinueOnPermissionFailure) onGranted.invoke()
@@ -220,6 +223,11 @@ abstract class BaseActivity : AppCompatActivity(), ViewInitialize, Tabable {
         extras?.let { intent.putExtras(it) }
         startActivity(intent)
         if (finishCurrent) finish()
+    }
+
+    companion object {
+        var resources: Resources? = null
+            private set
     }
 }
 

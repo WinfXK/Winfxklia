@@ -16,39 +16,70 @@
 
 package cn.winfxk.android.lib
 
-import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import cn.winfxk.android.mylibrary.BaseActivity
-import cn.winfxk.android.mylibrary.camera.CameraLauncher
-import cn.winfxk.android.mylibrary.camera.WinCameraLauncher
-import coil.load
+import cn.winfxk.android.mylibrary.tip.Toast
+import cn.winfxk.android.mylibrary.tip.dialog.list.ListBuilder
+import cn.winfxk.android.mylibrary.view.menu.ModernFloatingMenu
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.lazy
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+    private val efm by lazy { findViewById<ModernFloatingMenu>(R.id.floating_menu) }
+    override fun getLayoutId(): Int = R.layout.activity_main
 
-    private lateinit var ivPreview: ImageView
-    private lateinit var btnCamera: Button
-
-    /**
-     * 核心步骤 1：初始化 CameraLauncher
-     * 必须在 Activity 的 onCreate 之前或之中初始化（因为它内部注册了 ActivityResultLauncher）
-     */
-    private val cameraLauncher = WinCameraLauncher(this, { a, b ->
-        ivPreview.load(b) {
-            crossfade(true) // 淡入淡出效果
-            placeholder(android.R.drawable.ic_menu_gallery) // 占位图
+    override fun initializeView() {
+        efm.addItem {
+            var index1 = 0
+            val name1 = { "SB$index1" }
+            title = name1()
+            iconRes = cn.winfxk.android.mylibrary.R.drawable.winfxklia_toast_icon1
+            onClick = {
+                index1 ++
+                title = name1()
+                Toast.makeText(this@MainActivity, "我点击的是SB(${name1()})").show()
+            }
         }
-    })
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        ivPreview = findViewById(R.id.iv_preview)
-        btnCamera = findViewById(R.id.btn_camera)
-        btnCamera.setOnClickListener {
-            cameraLauncher.launch()
+        efm.addItem {
+            var index2 = 0
+            val name2 = { "DSB$index2" }
+            title = name2()
+            iconUrl = "https://avatars.githubusercontent.com/u/17727619?s=64&v=4"
+            onClick = {
+                index2 ++
+                title = name2()
+                Toast.makeText(this@MainActivity, "我点击的是DSB").show()
+            }
+        }
+        scope.launch {
+            delay(1000)
+            withContext(Dispatchers.Main) {
+                val list = ListBuilder(this@MainActivity);
+                list.addItem {
+                    text = "SB"
+                    textColor = 0xff0000
+                    onClick = {
+                        Toast.makeText(this@MainActivity, "嘤嘤嘤").show()
+                    }
+                }
+                list.addItem {
+                    text = "SB1"
+                    onClick = {
+                        Toast.makeText(this@MainActivity, "嘤嘤嘤1").show()
+                    }
+                }
+                list.addItem {
+                    text = "SB2"
+                    backgroundColor = 0x0000ff
+                    onClick = {
+                        Toast.makeText(this@MainActivity, "嘤嘤嘤2").show()
+                        list.cancel()
+                    }
+                }
+                list.show()
+            }
         }
     }
-
 }
