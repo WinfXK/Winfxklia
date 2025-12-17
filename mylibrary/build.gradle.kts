@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("maven-publish")
 }
 
 android {
@@ -19,10 +20,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -32,6 +30,37 @@ android {
     kotlinOptions {
         jvmTarget = "11"
         freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "cn.winfxk.android.mylibrary"
+                artifactId = "Winfxklia"
+                version = "1.0.0"
+                pom {
+                    name.set("Winfxklia Library")
+                    description.set("一个常见的Android库由Winfxk开发")
+                    url.set("http://Winfxk.cn")
+                    developers {
+                        developer {
+                            id.set("Winfxk")
+                            name.set("Winfxk")
+                            email.set("admin@winfxk.cn")
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

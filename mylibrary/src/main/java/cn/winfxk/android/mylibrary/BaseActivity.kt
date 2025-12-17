@@ -48,6 +48,7 @@ abstract class BaseActivity : AppCompatActivity(), ViewInitialize, Tabable {
      * 在主线程执行任务
      */
     open fun handler(task: Runnable) = handler.post(task)
+    open fun Master(task: Runnable) = handler.post(task)
     /**
      * 是否启用全屏沉浸式模式。如果为 true，将自动隐藏状态栏和导航栏，并允许内容延伸到刘海区域。
      */
@@ -216,8 +217,8 @@ abstract class BaseActivity : AppCompatActivity(), ViewInitialize, Tabable {
      */
     protected fun <T : Activity> launchActivity(
         activityClass: Class<T>,
-        extras: Bundle? = null,
-        finishCurrent: Boolean = false
+        finishCurrent: Boolean = false,
+        extras: Bundle? = null
     ) {
         val intent = Intent(this, activityClass)
         extras?.let { intent.putExtras(it) }

@@ -100,6 +100,7 @@ class ListItemView(private val context: Context) : View.OnClickListener {
      * 点击事件
      */
     var onClick: OnListBuilderButtonClick? = null
+
     private fun createButton(): Button {
         Toast.makeText(context, "$height").show()
         val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height)
