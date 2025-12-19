@@ -25,5 +25,11 @@ class InputView(val key: String, val builder: InputBuilder) {
     val view: View by lazy { View.inflate(builder.context, R.layout.winfxklia_inputbuilder_item, null) }
     val textInputLayout: TextInputLayout by lazy { view.findViewById(R.id.text_input_layout) }
     val editText: EditText by lazy { view.findViewById(R.id.editText1) }
-    val text :String get() = editText.text.toString()
+    val text: String get() = editText.text.toString()
+    /**
+     * 点击按钮的事件
+     */
+    var onClick: onInputItemClick? = null
+
+    val item by lazy { InputItem(this, builder.context); }
 }

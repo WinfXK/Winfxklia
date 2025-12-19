@@ -45,7 +45,7 @@
                     android:paddingTop="@dimen/winfxklia_dialog_paddingTB"
                     android:paddingBottom="@dimen/winfxklia_dialog_paddingTB"
                     android:paddingStart="@dimen/winfxklia_dialog_paddingSE"
-                    android:textColor="@color/winfxklia_black"
+                    android:textColor="@color/winfxklia_dialogTextColor"
                     android:paddingEnd="@dimen/winfxklia_dialog_paddingSE"
                     android:gravity="center_vertical|start"
                     android:id="@+id/textView1" />
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textView4"
                 android:id="@+id/textView3"
-                android:textColor="@color/winfxklia_black"
+                android:textColor="@color/winfxklia_dialogTextColor"
                 android:textSize="@dimen/winfxklia_dialog_text_size"
                 android:gravity="top|start"
                 android:padding="@dimen/winfxklia_dialog_paddingSE" />

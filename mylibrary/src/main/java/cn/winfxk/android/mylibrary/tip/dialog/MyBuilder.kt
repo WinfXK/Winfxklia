@@ -20,8 +20,6 @@ import android.animation.StateListAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -97,12 +95,16 @@ open class MyBuilder(context: Context, type: Type = Type.Info) : BaseBuilder(con
     open var title: String
         get() = titleView.text.toString()
         set(value) {
-            runOnUI { titleView.text = value }
+            val time = System.currentTimeMillis();
+            runOnUI {
+                titleView.text = value
+                if (time - lastSetMessageTime > 500) titleView.startAnimation(alphaShow)
+            }
         }
     /**
      * 添加一个按钮
      */
-    open fun addButton(text: String, @ColorInt color: Int = 0x000000, listener: BuilderListener = emptyListener) {
+    open fun addButton(text: String, @ColorInt color: Int? = null, listener: BuilderListener = emptyListener) {
         runOnUI {
             val button = makeButton(text, color);
             button.setOnClickListener {
@@ -113,12 +115,8 @@ open class MyBuilder(context: Context, type: Type = Type.Info) : BaseBuilder(con
             }
             buttons.add(button);
             if (isShow) {
-                button.visibility = View.INVISIBLE
                 buttonView.addView(button)
-                handler.postDelayed({
-                    button.visibility = View.VISIBLE
-                    button.startAnimation(alphaShow)
-                }, 100)
+                button.startAnimation(alphaShow)
             }
         }
     }
@@ -127,17 +125,9 @@ open class MyBuilder(context: Context, type: Type = Type.Info) : BaseBuilder(con
      */
     open fun clearButton() {
         buttons.clear()
-        if (isShow) {
-            runOnUI {
-                if (buttonView.isEmpty()) return@runOnUI
-                var delay = 0L
-                val childCount = buttonView.childCount
-                (childCount - 1 downTo 0).forEach { index ->
-                    val view = buttonView.getChildAt(index)
-                    handler.postDelayed({ animateRemove(view as Button) }, delay)
-                    delay += 50
-                }
-            }
+        if (isShow) runOnUI {
+            if (buttonView.isEmpty()) return@runOnUI
+            buttonView.removeAllViews()
         }
     }
     /**
@@ -157,7 +147,7 @@ open class MyBuilder(context: Context, type: Type = Type.Info) : BaseBuilder(con
             val buttonToRemove = buttons.firstOrNull { it.text == text }
             if (buttonToRemove != null) {
                 buttons.remove(buttonToRemove)
-                if (isShow) animateRemove(buttonToRemove)
+                if (isShow) buttonView.removeView(buttonToRemove)
             }
         }
     }
@@ -169,33 +159,17 @@ open class MyBuilder(context: Context, type: Type = Type.Info) : BaseBuilder(con
     fun removeButton(index: Int) {
         if (index >= buttons.size) return
         val button = buttons.removeAt(index)
-        if (isShow) runOnUI { animateRemove(button) }
-    }
-    /**
-     * 私有的辅助函数，用于播放淡出动画并在结束后移除 View
-     */
-    private fun animateRemove(button: Button) {
-        val anim = AnimationUtils.loadAnimation(context, R.anim.winfxklia_alpha_hide).apply {
-            setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationStart(animation: Animation?) {}
-                override fun onAnimationEnd(animation: Animation?) {
-                    handler.post { buttonView.removeView(button) }
-                }
-
-                override fun onAnimationRepeat(animation: Animation?) {}
-            })
-        }
-        button.startAnimation(anim)
+        if (isShow) runOnUI { buttonView.removeView(button) }
     }
     /**
      * 用于构建一个点击按钮
      */
-    protected open fun makeButton(text: String, color: Int): Button {
+    protected open fun makeButton(text: String, color: Int?): Button {
         val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, context.resources.getDimensionPixelSize(R.dimen.winfxkliaDialogButtonSize), 1.0f)
         layoutParams.setMargins(0, 5, 0, 0)
         val button = Button(context, null)
         button.text = text
-        button.setTextColor(color.toARGB())
+        button.setTextColor(color?.toARGB() ?: context.resources.getColor(R.color.winfxklia_dialogTextColor, context.theme))
         button.background = AppCompatResources.getDrawable(context, R.drawable.winfxklia_dialog_button)
         button.setLayoutParams(layoutParams)
         button.setPadding(0, 0, 0, 0)

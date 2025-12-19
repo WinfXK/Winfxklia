@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="winfxklia_dialog_background">#f222</color>
+    <color name="winfxklia_db_button_down">#e333</color>
+    <color name="winfxklia_db_button_foc">#e222</color>
+    <color name="winfxklia_dialogTextColor">#ccc</color>
+    <color name="winfxklia_dialog_stroke">#c888</color>
+    <color name="winfxklia_dialog_button_line">#909090</color>
+    <color name="winfxklia_dialog_title_line">#77a</color>
+</resources>

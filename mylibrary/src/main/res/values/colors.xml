@@ -15,4 +15,6 @@
     <color name="winfxklia_db_button_foc">#ceee</color>
     <color name="winfxklia_dialog_line">#cccc</color>
     <color name="winfxklia_transparent">#00000000</color>
+    <color name="winfxklia_dialogTextColor">#000</color>
+    <color name="winfxklia_dialog_stroke">#cccc</color>
 </resources>

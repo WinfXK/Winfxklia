@@ -49,7 +49,7 @@ class WinCameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_win_camera)
+        setContentView(R.layout.winfxklia_activity_win_camera)
         viewFinder = findViewById(R.id.viewFinder)
         findViewById<View>(R.id.btn_capture).setOnClickListener { takePhoto() }
         startCamera()

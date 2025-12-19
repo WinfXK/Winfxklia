@@ -18,6 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:endIconMode="clear_text"
             app:boxCornerRadiusTopStart="8dp"
+            app:startIconTint="@null"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:boxCornerRadiusBottomEnd="8dp">

@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
+import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,6 +36,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import cn.winfxk.android.mylibrary.utils.tab.Tabable
 import cn.winfxk.android.mylibrary.view.ViewInitialize
 import com.winfxk.lib.utils.className
+import com.winfxk.lib.utils.iF
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -44,6 +46,7 @@ abstract class BaseActivity : AppCompatActivity(), ViewInitialize, Tabable {
     val handler: Handler by lazy { Handler(Looper.getMainLooper()) }
     val scope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
     override val tag: String by lazy { className }
+    open val contentView: View? = null
     /**
      * 在主线程执行任务
      */
@@ -98,7 +101,8 @@ abstract class BaseActivity : AppCompatActivity(), ViewInitialize, Tabable {
         super.onCreate(savedInstanceState)
         if (BaseActivity.resources == null) BaseActivity.resources = resources;
         if (enableFullScreen) setFullScreenImmersive()
-        setContentView(getLayoutId())
+        if (contentView == null) setContentView(getLayoutId())
+        else setContentView(contentView)
         val requiredPermissions = getRequiredPermissions()
         if (requiredPermissions.isEmpty()) performInitialization()
         else requestAppPermissionsInternal(

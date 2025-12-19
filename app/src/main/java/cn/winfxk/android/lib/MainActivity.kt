@@ -18,12 +18,11 @@ package cn.winfxk.android.lib
 
 import cn.winfxk.android.mylibrary.BaseActivity
 import cn.winfxk.android.mylibrary.tip.Toast
-import cn.winfxk.android.mylibrary.tip.dialog.list.ListBuilder
+import cn.winfxk.android.mylibrary.tip.dialog.input.InputBuilder
 import cn.winfxk.android.mylibrary.view.menu.ModernFloatingMenu
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlin.lazy
 
 class MainActivity : BaseActivity() {
@@ -53,33 +52,38 @@ class MainActivity : BaseActivity() {
                 Toast.makeText(this@MainActivity, "我点击的是DSB").show()
             }
         }
-        scope.launch {
+        scope.launch(Dispatchers.Main) {
             delay(1000)
-            withContext(Dispatchers.Main) {
-                val list = ListBuilder(this@MainActivity);
-                list.addItem {
-                    text = "SB"
-                    textColor = 0xff0000
-                    onClick = {
-                        Toast.makeText(this@MainActivity, "嘤嘤嘤").show()
-                    }
+            val builder = InputBuilder(this@MainActivity);
+            builder.add {
+                title = "名称"
+                iconRes = cn.winfxk.android.mylibrary.R.drawable.winfxklia_cite
+                hint = "请输入名称"
+                onClick = {
+                    Toast.makeText(this@MainActivity, "我点击了$title").show()
+                    false
                 }
-                list.addItem {
-                    text = "SB1"
-                    onClick = {
-                        Toast.makeText(this@MainActivity, "嘤嘤嘤1").show()
-                    }
-                }
-                list.addItem {
-                    text = "SB2"
-                    backgroundColor = 0x0000ff
-                    onClick = {
-                        Toast.makeText(this@MainActivity, "嘤嘤嘤2").show()
-                        list.cancel()
-                    }
-                }
-                list.show()
             }
+            builder.add {
+                title="密码"
+                hint = "请输入密码"
+                onClick = {
+                    Toast.makeText(this@MainActivity, "我点击了$title").show()
+                    false
+                }
+            }
+            builder.add {
+                hint = "请输入描述"
+                onClick = {
+                    Toast.makeText(this@MainActivity, "我点击了$title").show()
+                    false
+                }
+            }
+            builder.addButton("保存") {
+                Toast.makeText(this@MainActivity, "点击了保存").show()
+                !it;
+            }
+            builder.show()
         }
     }
 }
