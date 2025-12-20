@@ -7,4 +7,6 @@
     <color name="winfxklia_dialog_stroke">#c888</color>
     <color name="winfxklia_dialog_button_line">#909090</color>
     <color name="winfxklia_dialog_title_line">#77a</color>
+    <color name="winfxklia_textColor1">#fff</color>
+    <color name="winfxklia_textColor2">#aaa</color>
 </resources>
