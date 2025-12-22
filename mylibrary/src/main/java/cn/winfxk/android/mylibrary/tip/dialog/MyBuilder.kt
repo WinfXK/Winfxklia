@@ -19,7 +19,6 @@ import android.animation.ObjectAnimator
 import android.animation.StateListAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ProgressBar

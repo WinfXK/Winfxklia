@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/scrollView1"
+        android:background="@drawable/winfxklia_dialog_backg"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        android:padding="@dimen/winfxklia_dialog_paddingSE"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/winfxklia_dialog_loadingbuilder_hight">
+
+    <TextView
+            android:textColor="@color/winfxklia_textColor1"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="@string/winfxklia_info"
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <LinearLayout
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+        <RelativeLayout
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:textColor="@color/winfxklia_textColor1"
+                    android:layout_marginBottom="@dimen/loadbuilderHintTextMargin"
+                    android:textSize="@dimen/loadingbuilderHintSize"
+                    android:id="@+id/textView1"
+                    android:gravity="start|center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            <TextView
+                    android:textColor="@color/winfxklia_textColor1"
+                    android:layout_marginBottom="@dimen/loadbuilderHintTextMargin"
+                    android:textSize="@dimen/loadingbuilderHintSize"
+                    android:id="@+id/textView2"
+                    android:gravity="end|center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                app:trackColor="?attr/colorSurfaceVariant"
+                app:indicatorColor="?attr/colorPrimary"
+                app:trackCornerRadius="4dp"
+                android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
+    </LinearLayout>
+
+    <TextView
+            android:textColor="@color/winfxklia_textColor1"
+            android:alpha="0.5"
+            android:textSize="@dimen/loadingbuilderHintSize"
+            android:id="@+id/textView3"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal|bottom"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/loadbuilderHintTextMargin"
+            android:layout_height="wrap_content" />
+</RelativeLayout>
