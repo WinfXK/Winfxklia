@@ -36,7 +36,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 import cn.winfxk.android.mylibrary.utils.tab.Tabable
 import cn.winfxk.android.mylibrary.view.ViewInitialize
 import com.winfxk.lib.utils.className
-import com.winfxk.lib.utils.iF
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

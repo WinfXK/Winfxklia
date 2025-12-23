@@ -12,12 +12,13 @@
 * Author： Winfxk
 * Created PCUser: Winfx 
 * Web: http://winfxk.com
-* Created Date: 2025/12/22  13:27 */
-package cn.winfxk.android.mylibrary.tip.dialog.loading
+* Created Date: 2025/12/23  09:31 */
+package cn.winfxk.android.mylibrary.view.etv
 
-import cn.winfxk.android.mylibrary.tip.dialog.LoadingBuilder
-
-class LoadBuilderView(val main: LoadingBuilder) {
-    @Volatile var current: Long = 0;
-    @Volatile var max: Long = 0
-}
+data class ParticleConfig(
+    var particleSize: Float = 6f,
+    var samplingStep: Int = 4,
+    var duration: Long = 4500,
+    var driftSpeed: Float = 0.8f,
+    var fadeSpeed: Int = 3,
+    var sequenceSmoothness: Float = 0.1f)

@@ -52,7 +52,7 @@ class LoadingBuilder(context: Context) : BaseBuilder(context) {
     private val animator by lazy {
         object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                startFadeInTypewriter(textView3, array.random(), 150)
+                startFadeInTypewriter(textView3, array.random())
             }
         }
     }
@@ -103,7 +103,7 @@ class LoadingBuilder(context: Context) : BaseBuilder(context) {
         }
     }
 
-    private fun startFadeInTypewriter(textView: TextView, content: String, charDuration: Long) {
+    private fun startFadeInTypewriter(textView: TextView, content: String) {
         val spannableString = SpannableString(content)
         val length = content.length
         val baseColor = textView.currentTextColor
@@ -143,6 +143,7 @@ class LoadingBuilder(context: Context) : BaseBuilder(context) {
     }
 
     companion object {
+        private const val charDuration = 150L;
         private val b100 = BigDecimal(100);
         private const val defMax = 10000;
         private const val textView3AnimateDuration = 800L

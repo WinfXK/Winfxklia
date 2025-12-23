@@ -16,33 +16,18 @@
 
 package cn.winfxk.android.lib
 
-import android.util.Log
 import cn.winfxk.android.mylibrary.BaseActivity
-import cn.winfxk.android.mylibrary.tip.Toast
 import cn.winfxk.android.mylibrary.tip.dialog.LoadingBuilder
-import cn.winfxk.android.mylibrary.tip.dialog.input.InputBuilder
-import cn.winfxk.android.mylibrary.view.menu.ModernFloatingMenu
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import cn.winfxk.android.mylibrary.view.etv.EffectTextView
 import kotlin.lazy
-import kotlin.math.max
 
 class MainActivity : BaseActivity() {
-    private val efm by lazy { findViewById<ModernFloatingMenu>(R.id.floating_menu) }
-    override fun getLayoutId(): Int = R.layout.activity_main
-
+    override fun getLayoutId(): Int = R.layout.main_activity
+    private val ev by lazy { findViewById<EffectTextView>(R.id.textView1) }
+    private val array by lazy { resources.getStringArray(cn.winfxk.android.mylibrary.R.array.winfxklia_loading_motto).toMutableList() }
     override fun initializeView() {
         val builder = LoadingBuilder(this);
-        builder.title="正在下载"
-        val max = 10000L;
-        builder.max = max;
-        builder.show()
-        scope.launch(Dispatchers.Main) {
-            for (index in 0 .. max) {
-                delay(1)
-                builder.current = index;
-            }
-        }
+        builder.setCancelable(true)
+        builder.show();
     }
 }

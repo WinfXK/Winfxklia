@@ -105,6 +105,4 @@ class InputItem(val view: InputView, val context: Context) {
         canvas.drawBitmap(bitmap, null, targetRect, Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG))
         return finalBitmap.toDrawable(context.resources)
     }
-
-
 }

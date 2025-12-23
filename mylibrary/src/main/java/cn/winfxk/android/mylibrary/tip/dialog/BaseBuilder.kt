@@ -32,13 +32,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 
-
 typealias BuilderListener = (BaseBuilder) -> Unit
 
 @Suppress("unused")
 @SuppressLint("InflateParams")
 abstract class BaseBuilder(context: Context, @field:StyleRes val theme: Int = themes.random()) : Dialog(context, theme), ViewInitialize,
-    DialogInterface.OnDismissListener {
+    DialogInterface.OnDismissListener, DialogInterface.OnCancelListener {
     protected open val iconAnim: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.winfxklia_progress_dialog_icon); }
     protected open val alphaShow: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.winfxklia_alpha_show); }
     protected open val alphaHide: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.winfxklia_alpha_hide); }
@@ -58,6 +57,7 @@ abstract class BaseBuilder(context: Context, @field:StyleRes val theme: Int = th
         alphaHide.fillAfter = true
         window?.setWindowAnimations(theme)
         super.setOnDismissListener(this)
+        super. setOnCancelListener(this)
         setCancelable(false)
         setContentView(getLayoutId())
     }
@@ -86,6 +86,7 @@ abstract class BaseBuilder(context: Context, @field:StyleRes val theme: Int = th
 
     @Deprecated("已弃用")
     override fun setOnDismissListener(listener: DialogInterface.OnDismissListener?) {
+        activityScope.cancel()
     }
     /**
      * 在主线程执行操作
@@ -95,9 +96,20 @@ abstract class BaseBuilder(context: Context, @field:StyleRes val theme: Int = th
         else task()
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        activityScope.cancel()
+    }
     @Deprecated("已弃用")
     override fun onDismiss(dialog: DialogInterface?) {
         closeListener.forEach { it.invoke(this) }
+        activityScope.cancel()
+    }
+
+    @Deprecated("已弃用")
+    override fun onCancel(dialog: DialogInterface?) {
+        closeListener.forEach { it.invoke(this) }
+        activityScope.cancel()
     }
     /**
      * 添加关闭事件的监听器

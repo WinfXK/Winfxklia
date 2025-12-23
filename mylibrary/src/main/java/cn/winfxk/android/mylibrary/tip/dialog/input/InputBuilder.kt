@@ -18,7 +18,6 @@ package cn.winfxk.android.mylibrary.tip.dialog.input
 import android.animation.ObjectAnimator
 import android.animation.StateListAnimator
 import android.content.Context
-import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -48,12 +47,6 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
     private val titleView: TextView by lazy { findViewById(R.id.textView1) }
     private val messageView: TextView by lazy { findViewById(R.id.textView3) }
     override fun getLayoutId(): Int = R.layout.winfxklia_inputbuilder
-
-    /**
-     *  获取 Material 库定义的标准图标大小 (默认为 24dp)
-     * 我们将把 Bitmap 缩放到这个尺寸
-     */
-    private val iconSize: Int by lazy { context.resources.getDimensionPixelSize(R.dimen.winfxkliaDesigntextInputIconSizeFallback) }
 
     @Volatile private var lastSetMessageTime = 0L;
     /**

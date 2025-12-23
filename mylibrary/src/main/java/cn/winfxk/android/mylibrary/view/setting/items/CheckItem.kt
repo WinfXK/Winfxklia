@@ -16,7 +16,6 @@
 package cn.winfxk.android.mylibrary.view.setting.items
 
 import android.view.View
-import android.widget.CompoundButton
 import android.widget.TextView
 import cn.winfxk.android.mylibrary.R
 import com.google.android.material.checkbox.MaterialCheckBox

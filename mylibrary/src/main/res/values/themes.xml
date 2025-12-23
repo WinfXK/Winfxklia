@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Theme.Winfxklia" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">#FF6200EE</item>
         <item name="colorPrimaryVariant">#FF3700B3</item>
@@ -7,10 +8,16 @@
         <item name="colorSecondaryVariant">@color/winfxklia_teal_700</item>
         <item name="colorOnSecondary">@color/winfxklia_black</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:textViewStyle">@style/Theme.Winfxklia.MyTextViewStyle</item>
+        <item name="android:textColorPrimary">@color/winfxklia_textColor1</item>
     </style>
 
     <style name="Theme.Winfxklia.BaseActivity" parent="Theme.Winfxklia">
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="Theme.Winfxklia.MyTextViewStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/winfxklia_textColor1</item>
     </style>
 </resources>
