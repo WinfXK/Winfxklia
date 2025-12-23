@@ -15,17 +15,11 @@
 * Created Date: 2025/12/22  10:54 */
 package cn.winfxk.android.mylibrary.tip.dialog
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 import android.widget.TextView
 import cn.winfxk.android.mylibrary.R
+import cn.winfxk.android.mylibrary.view.etv.EffectTextView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.winfxk.lib.utils.to.toBigDecimal
 import com.winfxk.lib.utils.toScale
@@ -38,24 +32,10 @@ class LoadingBuilder(context: Context) : BaseBuilder(context) {
     override fun getLayoutId(): Int = R.layout.winfxklia_loadingbuilder
     private val textView1 by lazy { findViewById<TextView>(R.id.textView1) }
     private val textView2 by lazy { findViewById<TextView>(R.id.textView2) }
-    private val textView3 by lazy { findViewById<TextView>(R.id.textView3) }
+    private val textView3 by lazy { findViewById<EffectTextView>(R.id.textView3) }
     private val textView4 by lazy { findViewById<TextView>(R.id.textView4) }
     private val array by lazy { context.resources.getStringArray(R.array.winfxklia_loading_motto).toMutableList() }
     private val progressBar by lazy { findViewById<LinearProgressIndicator>(R.id.progressBar) }
-    private val overAnimator by lazy {
-        object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                next = true;
-            }
-        }
-    }
-    private val animator by lazy {
-        object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                startFadeInTypewriter(textView3, array.random())
-            }
-        }
-    }
     @Volatile var max = 0L
         @Synchronized set(value) {
             field = value
@@ -76,8 +56,7 @@ class LoadingBuilder(context: Context) : BaseBuilder(context) {
     private fun reloadView() {
         runOnUI {
             textView1.text = "$current/$max"
-            val nb = BigDecimal(current).divide(BigDecimal(max)).multiply(b100)
-            textView2.text = if (max == 0L) "0%" else "${(nb).toScale()}%"
+            textView2.text = if (max == 0L) "0%" else "${(BigDecimal(current).divide(BigDecimal(max)).multiply(b100)).toScale()}%"
         }
     }
 
@@ -88,64 +67,27 @@ class LoadingBuilder(context: Context) : BaseBuilder(context) {
         }
 
     override fun initializeView() {
-        progressBar.max = defMax;
+        reloadView()
     }
 
     override fun show() {
+        reloadView()
         super.show()
+        textView3.onEffectFinishedListener = {
+            next = true;
+        }
         scope.launch {
             while (true) {
                 while (! next) delay(1000)
                 delay(3000)
                 next = false;
-                textView3.animate().alpha(0f).setDuration(textView3AnimateDuration).setListener(animator).start()
+                textView3.setEffectText(array.random())
             }
         }
-    }
-
-    private fun startFadeInTypewriter(textView: TextView, content: String) {
-        val spannableString = SpannableString(content)
-        val length = content.length
-        val baseColor = textView.currentTextColor
-        val red = Color.red(baseColor)
-        val green = Color.green(baseColor)
-        val blue = Color.blue(baseColor)
-        for (i in 0 until length) {
-            spannableString.setSpan(
-                ForegroundColorSpan(Color.argb(0, red, green, blue)),
-                i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-        textView.text = spannableString
-        textView.alpha = 1f
-        val animator = ValueAnimator.ofFloat(0f, length.toFloat())
-        animator.duration = length * charDuration
-        animator.addUpdateListener { valueAnimator ->
-            val progress = valueAnimator.animatedValue as Float
-            val currentSpannable = SpannableString(content)
-            for (i in 0 until length) {
-                val alpha = when {
-                    i < progress.toInt()  -> 255
-                    i == progress.toInt() -> {
-                        ((progress - i) * 255).toInt()
-                    }
-                    else                  -> 0
-                }
-                currentSpannable.setSpan(
-                    ForegroundColorSpan(Color.argb(alpha, red, green, blue)),
-                    i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-            textView.text = currentSpannable
-        }
-        animator.addListener(overAnimator)
-        animator.start()
     }
 
     companion object {
-        private const val charDuration = 150L;
         private val b100 = BigDecimal(100);
         private const val defMax = 10000;
-        private const val textView3AnimateDuration = 800L
     }
 }

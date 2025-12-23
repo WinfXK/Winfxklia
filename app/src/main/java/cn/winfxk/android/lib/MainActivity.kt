@@ -18,16 +18,11 @@ package cn.winfxk.android.lib
 
 import cn.winfxk.android.mylibrary.BaseActivity
 import cn.winfxk.android.mylibrary.tip.dialog.LoadingBuilder
-import cn.winfxk.android.mylibrary.view.etv.EffectTextView
-import kotlin.lazy
 
 class MainActivity : BaseActivity() {
     override fun getLayoutId(): Int = R.layout.main_activity
-    private val ev by lazy { findViewById<EffectTextView>(R.id.textView1) }
-    private val array by lazy { resources.getStringArray(cn.winfxk.android.mylibrary.R.array.winfxklia_loading_motto).toMutableList() }
     override fun initializeView() {
         val builder = LoadingBuilder(this);
-        builder.setCancelable(true)
         builder.show();
     }
 }

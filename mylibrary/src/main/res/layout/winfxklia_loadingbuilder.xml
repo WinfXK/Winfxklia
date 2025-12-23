@@ -56,12 +56,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="18dp"
                 app:trackColor="?attr/colorSurfaceVariant"
+                android:layout_marginBottom="@dimen/winfxklia_dialog_paddingTB"
                 app:indicatorColor="?attr/colorPrimary"
                 app:trackCornerRadius="4dp"
                 android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
     </LinearLayout>
 
-    <TextView
+    <cn.winfxk.android.mylibrary.view.etv.EffectTextView
             android:textColor="@color/winfxklia_textColor1"
             android:alpha="0.5"
             android:textSize="@dimen/loadingbuilderHintSize"
@@ -70,5 +71,5 @@
             android:gravity="center_horizontal|bottom"
             android:layout_width="match_parent"
             android:layout_marginBottom="@dimen/loadbuilderHintTextMargin"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 </RelativeLayout>
