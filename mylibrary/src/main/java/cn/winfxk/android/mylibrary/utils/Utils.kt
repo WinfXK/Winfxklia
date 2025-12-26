@@ -15,6 +15,9 @@
 * Created Date: 2025/12/16  14:07 */
 package cn.winfxk.android.mylibrary.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.util.TypedValue
 import cn.winfxk.android.mylibrary.BaseActivity.Companion.resources
 
@@ -49,3 +52,14 @@ val Float.sp: Float
             res.displayMetrics
         )
     }
+
+
+fun copyToClipboard(context: Context, text: String) {
+    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("label", text)
+    clipboard.setPrimaryClip(clip)
+}
+
+fun Context.copyToClip(text: String) {
+    copyToClipboard(this, text)
+}
