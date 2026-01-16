@@ -29,26 +29,25 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.cardview.widget.CardView
+import androidx.core.graphics.toColorInt
 import androidx.core.view.setMargins
 import cn.winfxk.android.mylibrary.R
 import cn.winfxk.android.mylibrary.utils.dp
 import cn.winfxk.android.mylibrary.utils.image.BitmapUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.*
-import androidx.core.graphics.toColorInt
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
- *     <cn.winfxk.android.mylibrary.view.menu.ModernFloatingMenu
+ *
+ *      <cn.winfxk.android.mylibrary.view.menu.ModernFloatingMenu
  *             android:id="@+id/floating_menu"
  *             android:layout_width="match_parent"
  *             android:layout_height="match_parent"
- *             android:elevation="10dp"
- *             android:layout_alignParentBottom="true"
- *             android:layout_alignParentEnd="true"
- *             app:layout_constraintBottom_toBottomOf="parent"
- *             app:layout_constraintEnd_toEndOf="parent"
- *             app:layout_constraintStart_toStartOf="parent"
- *             app:layout_constraintTop_toTopOf="parent" />
+ *             style="@style/Theme.Winfxklia.ModernFloatingMenu" />
  */
 class ModernFloatingMenu @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     var mainFabSize: Int = FloatingActionButton.SIZE_NORMAL
