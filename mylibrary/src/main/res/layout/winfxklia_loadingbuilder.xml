@@ -34,8 +34,8 @@
 
             <TextView
                     android:textColor="@color/winfxklia_textColor1"
-                    android:layout_marginBottom="@dimen/loadbuilderHintTextMargin"
-                    android:textSize="@dimen/loadingbuilderHintSize"
+                    android:layout_marginBottom="@dimen/winfxklialoadbuilderHintTextMargin"
+                    android:textSize="@dimen/winfxklialoadingbuilderHintSize"
                     android:id="@+id/textView1"
                     android:gravity="start|center_vertical"
                     android:layout_width="match_parent"
@@ -43,8 +43,8 @@
 
             <TextView
                     android:textColor="@color/winfxklia_textColor1"
-                    android:layout_marginBottom="@dimen/loadbuilderHintTextMargin"
-                    android:textSize="@dimen/loadingbuilderHintSize"
+                    android:layout_marginBottom="@dimen/winfxklialoadbuilderHintTextMargin"
+                    android:textSize="@dimen/winfxklialoadingbuilderHintSize"
                     android:id="@+id/textView2"
                     android:gravity="end|center_vertical"
                     android:layout_width="match_parent"
@@ -65,11 +65,11 @@
     <cn.winfxk.android.mylibrary.view.etv.EffectTextView
             android:textColor="@color/winfxklia_textColor1"
             android:alpha="0.5"
-            android:textSize="@dimen/loadingbuilderHintSize"
+            android:textSize="@dimen/winfxklialoadingbuilderHintSize"
             android:id="@+id/textView3"
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal|bottom"
             android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/loadbuilderHintTextMargin"
+            android:layout_marginBottom="@dimen/winfxklialoadbuilderHintTextMargin"
             android:layout_height="match_parent" />
 </RelativeLayout>

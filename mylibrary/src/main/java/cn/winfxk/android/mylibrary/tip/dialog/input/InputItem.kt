@@ -29,6 +29,9 @@ import androidx.core.graphics.drawable.toDrawable
 import cn.winfxk.android.mylibrary.R
 import cn.winfxk.android.mylibrary.utils.image.BitmapUtils
 
+/**
+ * @return 是否关闭Dialog
+ */
 typealias onInputItemClick = InputItem.(Button) -> Boolean
 
 class InputItem(val view: InputView, val context: Context) {

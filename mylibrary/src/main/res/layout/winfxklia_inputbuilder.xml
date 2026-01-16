@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_gravity="top"
                     android:layout_height="wrap_content"
-                    android:text="@string/winfxklia_app_name"
+                    android:text="@string/winfxklia_info"
                     android:textStyle="bold"
                     android:textSize="@dimen/winfxklia_dialog_title_size"
                     android:paddingTop="@dimen/winfxklia_dialog_paddingTB"

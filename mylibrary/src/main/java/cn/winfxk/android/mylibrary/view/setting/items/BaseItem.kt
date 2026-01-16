@@ -57,6 +57,5 @@ abstract class BaseItem(title: String, val get: GetValue, val set: SetValue) {
      * 所属Item被点击时调用
      */
     open fun onItemClick() {
-
     }
 }

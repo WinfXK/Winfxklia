@@ -27,6 +27,9 @@
                 android:id="@+id/editText1"
                 android:hint="@string/winfxklia_empty"
                 android:layout_width="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:enabled="true"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
 

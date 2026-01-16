@@ -29,9 +29,9 @@ import cn.winfxk.android.mylibrary.tip.dialog.BuilderException
 import cn.winfxk.android.mylibrary.tip.dialog.MyBuilder.Companion.empIntarray
 import cn.winfxk.android.mylibrary.tip.dialog.Type
 import cn.winfxk.android.mylibrary.view.ImageView
+import com.winfxk.lib.sid.SnowflakeID
 import com.winfxk.lib.utils.toARGB
 import java.util.concurrent.ConcurrentHashMap
-import com.winfxk.lib.sid.SnowflakeID
 
 /**
  * 返回值决定是否关闭弹窗 true=关闭  false=不关闭
@@ -46,6 +46,7 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
     private val icon: ImageView by lazy { findViewById(R.id.imageView1) }
     private val titleView: TextView by lazy { findViewById(R.id.textView1) }
     private val messageView: TextView by lazy { findViewById(R.id.textView3) }
+    private val customViews = ConcurrentHashMap<String, CustomInputView>()
     override fun getLayoutId(): Int = R.layout.winfxklia_inputbuilder
 
     @Volatile private var lastSetMessageTime = 0L;
@@ -58,10 +59,16 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
             runOnUI {
                 val animDuration = 300L
                 when (value) {
-                    Type.Empty    -> ObjectAnimator.ofFloat(icon, "alpha", 0f).setDuration(animDuration).start()
-                    Type.Progress -> ObjectAnimator.ofFloat(icon, "alpha", 0f).setDuration(animDuration).start()
+                    Type.Empty    -> ObjectAnimator.ofFloat(icon, "alpha", 0f)
+                        .setDuration(animDuration)
+                        .start()
+                    Type.Progress -> ObjectAnimator.ofFloat(icon, "alpha", 0f)
+                        .setDuration(animDuration)
+                        .start()
                     else          -> {
-                        if (icon.alpha < 0.1f) ObjectAnimator.ofFloat(icon, "alpha", 1f).setDuration(animDuration).start()
+                        if (icon.alpha < 0.1f) ObjectAnimator.ofFloat(icon, "alpha", 1f)
+                            .setDuration(animDuration)
+                            .start()
                         else icon.startAnimation(iconAnim)
                         icon.setImageResource(value.id)
                     }
@@ -117,7 +124,15 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
         if (isShow) edits.addView(view.view)
         return view;
     }
-
+    /**
+     * 添加自定义项目
+     */
+    fun addView(builder: CustomInputView.() -> Unit) {
+        val view = CustomInputView();
+        builder.invoke(view);
+        customViews[sid.nextKey()] = view;
+        edits.addView(view.view)
+    }
 
     fun add(builder: InputItem.() -> Unit): InputItem {
         val view = InputView(sid.nextKey(), this)
@@ -132,11 +147,15 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
         runOnUI {
             val button = makeButton(text, color);
             button.setOnClickListener {
-                val isClose = listener(map.values.any {
+                val clicklist = map.values;
+                val customViews = customViews.values
+                val isClose = listener((clicklist.isEmpty() || clicklist.any {
                     val onClick = it.onClick;
-                    if (onClick == null) true else
-                        ! onClick(it.item, button)
-                })
+                    if (onClick == null) true else onClick(it.item, button)
+                }) && (customViews.isEmpty() || customViews.any {
+                    val onClick = it.onClick;
+                    if (onClick == null) true else  onClick(it, button)
+                }))
                 if (isClose) dismiss()
             }
             buttons.add(button);

@@ -19,16 +19,17 @@ import android.animation.ObjectAnimator
 import android.animation.StateListAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.isEmpty
 import cn.winfxk.android.mylibrary.R
 import cn.winfxk.android.mylibrary.view.ImageView
 import com.winfxk.lib.utils.toARGB
-import androidx.core.view.isEmpty
 
 typealias ClickListener = (Button, MyBuilder) -> Unit
 
@@ -57,16 +58,28 @@ open class MyBuilder(context: Context, type: Type = Type.Info) : BaseBuilder(con
                 val animDuration = 300L
                 when (value) {
                     Type.Empty    -> {
-                        ObjectAnimator.ofFloat(progressBar, "alpha", 0f).setDuration(animDuration).start()
-                        ObjectAnimator.ofFloat(icon, "alpha", 0f).setDuration(animDuration).start()
+                        ObjectAnimator.ofFloat(progressBar, "alpha", 0f)
+                            .setDuration(animDuration)
+                            .start()
+                        ObjectAnimator.ofFloat(icon, "alpha", 0f)
+                            .setDuration(animDuration)
+                            .start()
                     }
                     Type.Progress -> {
-                        ObjectAnimator.ofFloat(icon, "alpha", 0f).setDuration(animDuration).start()
-                        ObjectAnimator.ofFloat(progressBar, "alpha", 1f).setDuration(animDuration).start()
+                        ObjectAnimator.ofFloat(icon, "alpha", 0f)
+                            .setDuration(animDuration)
+                            .start()
+                        ObjectAnimator.ofFloat(progressBar, "alpha", 1f)
+                            .setDuration(animDuration)
+                            .start()
                     }
                     else          -> {
-                        ObjectAnimator.ofFloat(progressBar, "alpha", 0f).setDuration(animDuration).start()
-                        if (icon.alpha < 0.1f) ObjectAnimator.ofFloat(icon, "alpha", 1f).setDuration(animDuration).start()
+                        ObjectAnimator.ofFloat(progressBar, "alpha", 0f)
+                            .setDuration(animDuration)
+                            .start()
+                        if (icon.alpha < 0.1f) ObjectAnimator.ofFloat(icon, "alpha", 1f)
+                            .setDuration(animDuration)
+                            .start()
                         else icon.startAnimation(iconAnim)
                         icon.setImageResource(value.id)
                     }
@@ -168,7 +181,9 @@ open class MyBuilder(context: Context, type: Type = Type.Info) : BaseBuilder(con
         layoutParams.setMargins(0, 5, 0, 0)
         val button = Button(context, null)
         button.text = text
-        button.setTextColor(color?.toARGB() ?: context.resources.getColor(R.color.winfxklia_dialogTextColor, context.theme))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            button.setTextColor(color?.toARGB() ?: context.resources.getColor(R.color.winfxklia_dialogTextColor, context.theme))
+        } else button.setTextColor(color?.toARGB() ?: context.resources.getColor(R.color.winfxklia_dialogTextColor))
         button.background = AppCompatResources.getDrawable(context, R.drawable.winfxklia_dialog_button)
         button.setLayoutParams(layoutParams)
         button.setPadding(0, 0, 0, 0)
@@ -200,6 +215,12 @@ open class MyBuilder(context: Context, type: Type = Type.Info) : BaseBuilder(con
      */
     fun removeClickListener(listener: ClickListener) {
         clickListener.remove(listener)
+    }
+
+    fun to(message: String, type: Type, listener: BuilderListener = emptyListener) {
+        this.message = message;
+        this.type = type;
+        this.addButton("确定", listener = listener)
     }
 
     companion object {

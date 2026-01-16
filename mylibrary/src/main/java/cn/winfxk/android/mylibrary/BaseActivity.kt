@@ -33,6 +33,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import cn.winfxk.android.mylibrary.tip.Toast
+import cn.winfxk.android.mylibrary.tip.dialog.BaseBuilder.Companion.emptyListener
+import cn.winfxk.android.mylibrary.tip.dialog.BuilderListener
+import cn.winfxk.android.mylibrary.tip.dialog.MyBuilder
+import cn.winfxk.android.mylibrary.tip.dialog.Type
 import cn.winfxk.android.mylibrary.utils.tab.Tabable
 import cn.winfxk.android.mylibrary.view.ViewInitialize
 import com.winfxk.lib.utils.className
@@ -227,6 +232,23 @@ abstract class BaseActivity : AppCompatActivity(), ViewInitialize, Tabable {
         extras?.let { intent.putExtras(it) }
         startActivity(intent)
         if (finishCurrent) finish()
+    }
+    /**
+     * 显示一个Toast
+     */
+    fun toast(message: String) {
+        Toast.makeText(this, message).show()
+    }
+    /**
+     * 显示一个Dialog
+     */
+    fun tip(message: String, type: Type = Type.Info, title: String = "提示", listener: BuilderListener = emptyListener) {
+        val builder = MyBuilder(this);
+        builder.title = title;
+        builder.message = message;
+        builder.type = type;
+        builder.addButton("确定", listener = listener)
+        builder.show();
     }
 
     companion object {

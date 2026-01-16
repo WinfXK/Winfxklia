@@ -18,6 +18,7 @@
     <dimen name="winfxkliaBaseSettingsItemTitleTextSizeByLine">10sp</dimen>
     <dimen name="winfxkliaBaseSettingsItemValueMinWidth">50dp</dimen>
     <dimen name="winfxkliaBaseSettingsItemPS2">15dp</dimen>
-    <dimen name="loadingbuilderHintSize">11sp</dimen>
-    <dimen name="loadbuilderHintTextMargin">3dp</dimen>
+    <dimen name="winfxklialoadingbuilderHintSize">11sp</dimen>
+    <dimen name="winfxklialoadbuilderHintTextMargin">3dp</dimen>
+    <dimen name="winfxkliaButtonPadding">5dp</dimen>
 </resources>

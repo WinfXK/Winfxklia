@@ -7,7 +7,7 @@ import cn.winfxk.android.mylibrary.BaseActivity
 import cn.winfxk.android.mylibrary.view.setting.items.BaseItem
 
 abstract class BaseSetting : BaseActivity(), AdapterView.OnItemClickListener {
-    protected open val adapter by lazy { SettingAdapter(this) }
+      open val adapter by lazy { SettingAdapter(this) }
     /**
      * 当前页的所有设置项目
      */
