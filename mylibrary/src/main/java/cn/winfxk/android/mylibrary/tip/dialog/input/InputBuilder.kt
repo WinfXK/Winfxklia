@@ -149,13 +149,15 @@ class InputBuilder(context: Context) : BaseBuilder(context), InputClickListener 
             button.setOnClickListener {
                 val clicklist = map.values;
                 val customViews = customViews.values
-                val isClose = listener((clicklist.isEmpty() || clicklist.any {
+                val click = clicklist.isEmpty() || clicklist.all {
                     val onClick = it.onClick;
                     if (onClick == null) true else onClick(it.item, button)
-                }) && (customViews.isEmpty() || customViews.any {
+                }
+                val cutsomView = customViews.isEmpty() || customViews.all {
                     val onClick = it.onClick;
-                    if (onClick == null) true else  onClick(it, button)
-                }))
+                    if (onClick == null) true else onClick(it, button)
+                }
+                val isClose = listener(click && cutsomView)
                 if (isClose) dismiss()
             }
             buttons.add(button);

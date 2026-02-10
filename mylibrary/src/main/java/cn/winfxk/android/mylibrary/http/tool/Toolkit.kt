@@ -69,14 +69,14 @@ fun HttpUrl.Builder.post(client: OkHttpClient, build: HttpUrl.Builder.() -> Unit
  * @param builder 关联的对话框
  * @param isrunning 需要复位的标识符
  */
-fun Response.toJson(resp: String?, builder: MyBuilder?, isrunning: AtomicBoolean) = toJson(resp, builder, { isrunning.set(false) })
+fun Response.toJson(resp: String?, builder: MyBuilder?, isrunning: AtomicBoolean, allowEmpty: Boolean = false) = toJson(resp, builder, { isrunning.set(false) }, allowEmpty)
 /**
  * 检查返回结果是否正常
  * @param resp 返回的文本（手动传入，防止报错）
  * @param builder 关联的对话框
  * @param returnt 操作中断时出发的操作
  */
-fun Response.toJson(resp: String?, builder: MyBuilder?, returnt: () -> Unit): JSONObject? {
+fun Response.toJson(resp: String?, builder: MyBuilder?, returnt: () -> Unit, allowEmpty: Boolean = false): JSONObject? {
     if (! this.isSuccessful) {
         if (builder != null) retip(builder, resp)
         returnt.invoke()
@@ -92,7 +92,7 @@ fun Response.toJson(resp: String?, builder: MyBuilder?, returnt: () -> Unit): JS
     } catch (_: Exception) {
         null
     }
-    if (json.isNullOrEmpty()) {
+    if (! allowEmpty && json.isNullOrEmpty()) {
         builder?.to("解析数据失败！\n$resp", Type.Error)
         returnt.invoke()
         return null
@@ -106,14 +106,14 @@ fun Response.toJson(resp: String?, builder: MyBuilder?, returnt: () -> Unit): JS
  * @param builder 关联的对话框
  * @param isrunning 需要复位的标识符
  */
-fun Response.toArray(resp: String?, builder: MyBuilder?, isrunning: AtomicBoolean) = toArray(resp, builder, { isrunning.set(false) })
+fun Response.toArray(resp: String?, builder: MyBuilder?, isrunning: AtomicBoolean, allowEmpty: Boolean = false) = toArray(resp, builder, { isrunning.set(false) }, allowEmpty)
 /**
  * 检查返回结果是否正常
  * @param resp 返回的文本（手动传入，防止报错）
  * @param builder 关联的对话框
  * @param returnt 操作中断时出发的操作
  */
-fun Response.toArray(resp: String?, builder: MyBuilder?, returnt: () -> Unit): JSONArray? {
+fun Response.toArray(resp: String?, builder: MyBuilder?, returnt: () -> Unit, allowEmpty: Boolean = false): JSONArray? {
     if (! this.isSuccessful) {
         if (builder != null) retip(builder, resp)
         returnt.invoke()
@@ -129,7 +129,7 @@ fun Response.toArray(resp: String?, builder: MyBuilder?, returnt: () -> Unit): J
     } catch (_: Exception) {
         null
     }
-    if (json.isNullOrEmpty()) {
+    if (! allowEmpty && json.isNullOrEmpty()) {
         builder?.to("解析数据失败！\n$resp", Type.Error)
         returnt.invoke()
         return null
