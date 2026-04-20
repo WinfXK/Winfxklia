@@ -9,7 +9,7 @@
 * Created by IntelliJ ID
 * Author： Winfxk
 * Web: http://winfxk.com
-* Created Date: 2026/04/20 14:15
+* Created Date: 2026/04/20 15:14
 */
 package cn.winfxk.android.mylibrary.tip.dialog.buttom
 
@@ -44,6 +44,7 @@ class BottomBuilder(private val activity: FragmentActivity) : BottomSheetDialogF
     private val buttons = mutableListOf<DialogButton>()
     private var titleView: TextView? = null
     private var messageView: TextView? = null
+    private var customContainer: LinearLayout? = null
     private var buttonContainer: SmartFlowLayout? = null
     private val dp150 by lazy { dp2px(150) }
     private val dp38 by lazy { dp2px(38) }
@@ -55,6 +56,7 @@ class BottomBuilder(private val activity: FragmentActivity) : BottomSheetDialogF
     private val dp6 by lazy { dp2px(6) }
     private val dp4 by lazy { dp2px(4) }
     private val dp2 by lazy { dp2px(2) }
+
     /**
      * 弹窗标题
      */
@@ -73,7 +75,24 @@ class BottomBuilder(private val activity: FragmentActivity) : BottomSheetDialogF
             field = value
             messageView?.text = value
             messageView?.visibility = if (value.isBlank()) View.GONE else View.VISIBLE
+            refreshCustomView()
         }
+
+    /**
+     * 弹窗的自定义 View 属性
+     */
+    var customView: View? = null
+        set(value) {
+            field = value
+            refreshCustomView()
+        }
+
+    /**
+     *  设置自定义 View
+     */
+    fun setView(view: View) {
+        this.customView = view
+    }
 
     /**
      * 控制是否可以通过下滑关闭弹窗。
@@ -105,6 +124,7 @@ class BottomBuilder(private val activity: FragmentActivity) : BottomSheetDialogF
         buttons.add(DialogButton(text, textColor, underline, onClick))
         refreshButtons()
     }
+
     /**
      * 根据按钮的文本删除按钮
      * @param text 按钮的文本内容
@@ -208,14 +228,25 @@ class BottomBuilder(private val activity: FragmentActivity) : BottomSheetDialogF
             layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
             root.addView(this)
         }
+        val scrollContent = LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+            scrollView.addView(this)
+        }
         messageView = TextView(ctx).apply {
             textSize = 14f
             setTextColor("#555555".toColorInt())
             setLineSpacing(dp6.toFloat(), 1f)
             text = message
             visibility = if (message.isBlank()) View.GONE else View.VISIBLE
-            scrollView.addView(this)
+            scrollContent.addView(this)
         }
+        customContainer = LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+            scrollContent.addView(this)
+        }
+        refreshCustomView()
         buttonContainer = SmartFlowLayout(ctx).apply {
             layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT).apply {
                 topMargin = dp20
@@ -224,6 +255,20 @@ class BottomBuilder(private val activity: FragmentActivity) : BottomSheetDialogF
         }
         refreshButtons()
         return root
+    }
+
+    private fun refreshCustomView() {
+        val container = customContainer ?: return
+        container.removeAllViews()
+        val view = customView
+        if (view != null) {
+            (view.parent as? ViewGroup)?.removeView(view)
+            container.addView(view)
+            container.visibility = View.VISIBLE
+            val lp = container.layoutParams as? LinearLayout.LayoutParams
+            lp?.topMargin = if (message.isNotBlank()) dp16 else 0
+            container.layoutParams = lp
+        } else container.visibility = View.GONE
     }
 
     private fun refreshButtons() {
@@ -271,6 +316,7 @@ class BottomBuilder(private val activity: FragmentActivity) : BottomSheetDialogF
         super.onDestroyView()
         titleView = null
         messageView = null
+        customContainer = null
         buttonContainer = null
     }
 
@@ -344,8 +390,9 @@ class BottomBuilder(private val activity: FragmentActivity) : BottomSheetDialogF
         @SuppressLint("DrawAllocation")
         override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
             val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-            val realScreenHeight = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) windowManager.currentWindowMetrics.bounds.height()
-            else {
+            val realScreenHeight = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                windowManager.currentWindowMetrics.bounds.height()
+            } else {
                 val displayMetrics = android.util.DisplayMetrics()
                 @Suppress("DEPRECATION")
                 windowManager.defaultDisplay.getRealMetrics(displayMetrics)
