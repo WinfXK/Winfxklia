@@ -17,6 +17,9 @@
 package cn.winfxk.android.mylibrary
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
@@ -250,10 +253,26 @@ abstract class BaseActivity : AppCompatActivity(), ViewInitialize, Tabable {
         builder.addButton("确定", listener = listener)
         builder.show();
     }
+    /**
+     * 复制纯文本到剪贴板
+     * @param text 要复制的文本内容
+     */
+    fun copyText(text: String) = BaseActivity.copyText(this, text)
 
     companion object {
         var resources: Resources? = null
             private set
+
+        /**
+         * 复制纯文本到剪贴板
+         * @param context 上下文
+         * @param text 要复制的文本内容
+         */
+        fun copyText(context: Context, text: String) {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Copied Text", text)
+            clipboard.setPrimaryClip(clip)
+        }
     }
 }
 

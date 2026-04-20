@@ -24,7 +24,6 @@ import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.appcompat.content.res.AppCompatResources
 import cn.winfxk.android.mylibrary.R
-import cn.winfxk.android.mylibrary.tip.Toast
 import cn.winfxk.android.mylibrary.utils.dp
 import cn.winfxk.android.mylibrary.utils.sp
 import com.winfxk.lib.utils.toARGB
@@ -102,7 +101,6 @@ class ListItemView(private val context: Context) : View.OnClickListener {
     var onClick: OnListBuilderButtonClick? = null
 
     private fun createButton(): Button {
-        Toast.makeText(context, "$height").show()
         val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height)
         layoutParams.setMargins(0, padding, 0, 1)
         val button = Button(context)
