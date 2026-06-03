@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="winfxklia_camera">拍摄</string>
+    <string name="winfxklia_tickleCamera">轻触拍照</string>
+    <string name="winfxklia_close">关闭</string>
+    <string name="winfxklia_app_name">Winfxklia</string>
+</resources>

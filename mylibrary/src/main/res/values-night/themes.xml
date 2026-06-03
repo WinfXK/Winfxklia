@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Winfxklia" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#FFBB86FC</item>
+        <item name="colorPrimaryVariant">#FF3700B3</item>
+        <item name="colorOnPrimary">@color/winfxklia_black</item>
+        <item name="colorSecondary">@color/winfxklia_teal_200</item>
+        <item name="colorSecondaryVariant">@color/winfxklia_teal_200</item>
+        <item name="colorOnSecondary">@color/winfxklia_black</item>
+        <item name="android:textViewStyle">@style/Theme.Winfxklia.MyTextViewStyle</item>
+        <item name="android:textColorPrimary">@color/winfxklia_textColor1</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+</resources>

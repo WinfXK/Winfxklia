@@ -1,0 +1,79 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:padding="8dp">
+
+    <!-- STREAMING_CHUNK:Background Container... -->
+    <!--
+      背景容器：作为主要文本的背景，并为两边的图片提供定位锚点
+      使用 padding 而不是固定的 width/height，使其能根据文本长度自适应
+    -->
+    <View
+            android:id="@+id/toast_background_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/winfxklia_toast_backg"
+            app:layout_constraintBottom_toBottomOf="@+id/textView1"
+            app:layout_constraintEnd_toEndOf="@+id/textView1"
+            app:layout_constraintStart_toStartOf="@+id/textView1"
+            app:layout_constraintTop_toTopOf="@+id/textView1"
+            app:layout_constraintVertical_bias="0.5" />
+
+    <!-- STREAMING_CHUNK:Left Icon... -->
+    <!--
+      左侧图标：
+      通过 ConstraintLayout 的约束将其中心点绑定到背景的左上角（或你需要的位置）
+      这比以前用负的 margin 来重叠要优雅和稳定得多
+    -->
+    <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/winfxklia_toast_backg2"
+            android:contentDescription="@string/winfxklia_app_name"
+            android:elevation="4dp"
+            android:rotation="-30"
+            android:scaleType="centerInside"
+            android:src="@drawable/winfxklia_toast_icon1"
+            app:layout_constraintBottom_toTopOf="@+id/toast_background_container"
+            app:layout_constraintEnd_toStartOf="@+id/toast_background_container"
+            app:layout_constraintStart_toStartOf="@+id/toast_background_container"
+            app:layout_constraintTop_toTopOf="@+id/toast_background_container" />
+
+    <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minWidth="100dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="@string/winfxklia_app_name"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/winfxklia_toast_backg2"
+            android:contentDescription="@string/winfxklia_app_name"
+            android:elevation="4dp"
+            android:rotation="30"
+            android:scaleType="centerInside"
+            android:src="@drawable/winfxklia_toast_icon1"
+            app:layout_constraintBottom_toTopOf="@+id/toast_background_container"
+            app:layout_constraintEnd_toEndOf="@+id/toast_background_container"
+            app:layout_constraintStart_toEndOf="@+id/toast_background_container"
+            app:layout_constraintTop_toTopOf="@+id/toast_background_container" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

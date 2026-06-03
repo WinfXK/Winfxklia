@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="winfxklia_black">#FF000000</color>
+    <color name="winfxklia_white">#FFFFFFFF</color>
+    <color name="winfxklia_blue">#0000ff</color>
+    <color name="winfxklia_red">#ff0000</color>
+    <color name="winfxklia_green">#00ff00</color>
+    <color name="winfxklia_yellow">#ffff00</color>
+    <color name="winfxklia_teal_200">#FF03DAC5</color>
+    <color name="winfxklia_teal_700">#FF018786</color>
+    <color name="winfxklia_transparent">#00000000</color>
+    <color name="winfxklia_textColor1">#000</color>
+    <color name="winfxklia_textColor2">#555</color>
+</resources>
