@@ -12,22 +12,24 @@
 * Author： Winfxk
 * Created PCUser: Winfx 
 * Web: http://winfxk.com
-* Created Date: 2026/6/2  14:14 */
-package cn.winfxk.android.winfxklia
+* Created Date: 2026/6/4  09:21 */
+package cn.winfxk.android.mylibrary.view.textview
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import cn.winfxk.android.winfxklia.databinding.MainActivityBinding
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
+import cn.winfxk.android.mylibrary.view.TextView
 
-
-class MainActivity : ComponentActivity() {
-    private val bind by lazy { MainActivityBinding.inflate(layoutInflater) }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(bind.root)
-        var count = 0;
-        bind.confirm5.setOnClickListener {
-            bind.text.setEffectText("点击次数：${count ++}")
+internal class AnimatorAdapter(
+    private val main: TextView,
+    private val animator: ValueAnimator,
+    private val task: TransitionTask) : AnimatorListenerAdapter() {
+    override fun onAnimationEnd(animation: Animator) {
+        main.animators.remove(animator)
+        main.activeTasks.remove(task)
+        if (main.activeTasks.isEmpty()) {
+            main.text = main.lastTargetText
+            main.onEffectFinishedListener?.invoke(main)
         }
     }
 }

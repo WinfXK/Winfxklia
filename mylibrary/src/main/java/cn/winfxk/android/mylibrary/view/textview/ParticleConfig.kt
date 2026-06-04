@@ -12,22 +12,17 @@
 * Author： Winfxk
 * Created PCUser: Winfx 
 * Web: http://winfxk.com
-* Created Date: 2026/6/2  14:14 */
-package cn.winfxk.android.winfxklia
+* Created Date: 2026/6/4  09:18 */
+package cn.winfxk.android.mylibrary.view.textview
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import cn.winfxk.android.winfxklia.databinding.MainActivityBinding
-
-
-class MainActivity : ComponentActivity() {
-    private val bind by lazy { MainActivityBinding.inflate(layoutInflater) }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(bind.root)
-        var count = 0;
-        bind.confirm5.setOnClickListener {
-            bind.text.setEffectText("点击次数：${count ++}")
-        }
-    }
-}
+/**
+ * 粒子特效配置类
+ */
+data class ParticleConfig(
+    var particleSize: Float = 6f,
+    var samplingStep: Int = 4,
+    var duration: Long = 4500,
+    var driftSpeed: Float = 0.8f,
+    var fadeSpeed: Int = 3,
+    var sequenceSmoothness: Float = 0.1f
+)

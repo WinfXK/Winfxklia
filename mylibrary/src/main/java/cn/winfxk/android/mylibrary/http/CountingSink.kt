@@ -12,22 +12,21 @@
 * Author： Winfxk
 * Created PCUser: Winfx 
 * Web: http://winfxk.com
-* Created Date: 2026/6/2  14:14 */
-package cn.winfxk.android.winfxklia
+* Created Date: 2026/6/4  08:45 */
+package cn.winfxk.android.mylibrary.http
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import cn.winfxk.android.winfxklia.databinding.MainActivityBinding
+import kotlinx.coroutines.runBlocking
+import okio.Buffer
+import okio.BufferedSink
+import okio.ForwardingSink
 
+class CountingSink(private val main: ProgressRequestBody, sink: BufferedSink) : ForwardingSink(sink) {
+    var currentProgress = 0L
+    val totalSize = main.contentLength()
 
-class MainActivity : ComponentActivity() {
-    private val bind by lazy { MainActivityBinding.inflate(layoutInflater) }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(bind.root)
-        var count = 0;
-        bind.confirm5.setOnClickListener {
-            bind.text.setEffectText("点击次数：${count ++}")
-        }
+    override fun write(source: Buffer, byteCount: Long) {
+        super.write(source, byteCount)
+        currentProgress += byteCount
+        runBlocking { main.onProgress(currentProgress, totalSize) }
     }
 }

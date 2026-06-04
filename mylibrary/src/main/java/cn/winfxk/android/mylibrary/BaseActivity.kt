@@ -12,22 +12,10 @@
 * Author： Winfxk
 * Created PCUser: Winfx 
 * Web: http://winfxk.com
-* Created Date: 2026/6/2  14:14 */
-package cn.winfxk.android.winfxklia
+* Created Date: 2026/6/4  09:34 */
+package cn.winfxk.android.mylibrary
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import cn.winfxk.android.winfxklia.databinding.MainActivityBinding
+import androidx.appcompat.app.AppCompatActivity
 
-
-class MainActivity : ComponentActivity() {
-    private val bind by lazy { MainActivityBinding.inflate(layoutInflater) }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(bind.root)
-        var count = 0;
-        bind.confirm5.setOnClickListener {
-            bind.text.setEffectText("点击次数：${count ++}")
-        }
-    }
+class BaseActivity: AppCompatActivity() {
 }
