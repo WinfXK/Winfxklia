@@ -58,7 +58,7 @@ class MyBuilder(val context: Context, builder: MyBuilder.() -> Unit = {}) {
         }
 
     @Volatile
-    var type: DialogType = DialogType.Info
+    var type: DialogType = DialogType.Message
         set(value) {
             field = value
             runOnUI { updateIconState() }

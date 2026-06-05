@@ -31,8 +31,8 @@ import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
-import cn.winfxk.android.mylibrary.http.download
 import cn.winfxk.android.mylibrary.utils.BitmapUtils.decodeSampledBitmapFromFile
+import cn.winfxk.android.mylibrary.utils.http.download
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull

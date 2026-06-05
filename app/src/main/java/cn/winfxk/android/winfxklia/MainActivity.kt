@@ -15,16 +15,15 @@
 * Created Date: 2026/6/2  14:14 */
 package cn.winfxk.android.winfxklia
 
-import cn.winfxk.android.mylibrary.tip.dialog.MyBuilder
-import cn.winfxk.android.mylibrary.utils.settings.BaseSetting
+import cn.winfxk.android.mylibrary.tip.dialog.DialogType
 import cn.winfxk.android.winfxklia.databinding.MainActivityBinding
 
 
-class MainActivity : BaseSetting() {
-    private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
+class MainActivity : cn.winfxk.android.mylibrary.view.settings.BaseSetting() {
+    override val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
     override val recyclerView by lazy { binding.listView }
 
-    override fun initView() {
+    override fun init() {
         setContentView(binding.root)
         settings {
             addHeader(title = "通用设置")
@@ -66,17 +65,13 @@ class MainActivity : BaseSetting() {
                 "save",
                 "保存",
             ) {
-                val builder = MyBuilder(this@MainActivity);
-                builder.message = """
+                tip("""
                     应用主题: ${single.value}
                     音量大小: ${slider.value}
                     启用特性: ${multi.value}
                     评分: ${rating.value}
                     开启硬件加速: ${switch.value}
-                    """.trimIndent()
-                builder.addButton("确定")
-                builder.addButton("取消")
-                builder.show()
+                    """.trimIndent(), DialogType.Message)
             }
         }
 

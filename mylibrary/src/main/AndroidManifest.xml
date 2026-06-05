@@ -11,9 +11,9 @@
     <application
             android:usesCleartextTraffic="true"
             android:networkSecurityConfig="@xml/winfxklia_network_security_config">
-        <activity android:name=".utils.media.WinCameraActivity" />
+        <activity android:name=".view.media.WinCameraActivity" />
         <provider
-                android:name=".utils.media.CameraLibFileProvider"
+                android:name=".view.media.CameraLibFileProvider"
                 android:authorities="${applicationId}.winfxk.camera.provider"
                 android:exported="false"
                 android:grantUriPermissions="true">
