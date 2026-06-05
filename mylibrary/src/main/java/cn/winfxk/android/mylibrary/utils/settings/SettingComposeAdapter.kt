@@ -11,19 +11,20 @@
 * Created by IntelliJ ID
 * Author： Winfxk
 * Web: http://winfxk.com
-* Created Date: 2026/06/05 14:46 */
-
+* Created Date: 2026/06/05 16:11 */
 package cn.winfxk.android.mylibrary.utils.settings
 
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.recyclerview.widget.RecyclerView
-import cn.winfxk.android.mylibrary.theme.WinfxkliaTheme
 import cn.winfxk.android.mylibrary.utils.settings.items.SettingItem
 import kotlinx.coroutines.CoroutineScope
 
-internal class SettingComposeAdapter(private val items: List<SettingItem<*>>, private val scope: CoroutineScope) : RecyclerView.Adapter<ComposeViewHolder>() {
+internal class SettingComposeAdapter(
+    private val items: List<SettingItem<*>>,
+    private val scope: CoroutineScope
+) : RecyclerView.Adapter<ComposeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComposeViewHolder {
         val composeView = ComposeView(parent.context).apply {
@@ -41,9 +42,7 @@ internal class SettingComposeAdapter(private val items: List<SettingItem<*>>, pr
     override fun onBindViewHolder(holder: ComposeViewHolder, position: Int) {
         val item = items[position]
         holder.composeView.setContent {
-            WinfxkliaTheme {
-                SettingItemUI(item = item, scope = scope)
-            }
+            SettingsTheme { SettingItemUI(item = item, scope = scope) }
         }
     }
 }

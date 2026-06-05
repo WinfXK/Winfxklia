@@ -143,7 +143,10 @@ class MyBuilder(val context: Context, builder: MyBuilder.() -> Unit = {}) {
      * 显示弹窗
      */
     fun show() {
-        if (! isShowing) runOnUI { dialog.show() }
+        if (! isShowing) runOnUI {
+            renderButtons()
+            dialog.show()
+        }
     }
 
     /**
@@ -163,7 +166,7 @@ class MyBuilder(val context: Context, builder: MyBuilder.() -> Unit = {}) {
     /**
      * 添加按钮
      */
-    fun addButton(text: String, block: BuilderListener = {}) {
+    fun addButton(text: String, block: BuilderListener = emptyListener) {
         val config = DialogButton(text).apply(block)
         buttons.add(config)
         if (isShowing) runOnUI { renderButtons() }

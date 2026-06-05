@@ -108,6 +108,7 @@ dependencies {
     implementation(libs.androidx.compose.material3.window.size.class1)
     implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
     implementation(libs.activity.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 

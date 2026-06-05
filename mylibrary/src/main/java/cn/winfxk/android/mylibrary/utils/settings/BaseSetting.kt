@@ -11,7 +11,7 @@
 * Created by IntelliJ ID
 * Author： Winfxk
 * Web: http://winfxk.com
-* Created Date: 2026/06/05 10:28 */
+* Created Date: 2026/06/05 15:04 */
 package cn.winfxk.android.mylibrary.utils.settings
 
 import android.os.Bundle
@@ -24,14 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cn.winfxk.android.mylibrary.utils.settings.items.ButtonItem
-import cn.winfxk.android.mylibrary.utils.settings.items.InputItem
-import cn.winfxk.android.mylibrary.utils.settings.items.LineItem
 import cn.winfxk.android.mylibrary.utils.settings.items.SettingItem
-import cn.winfxk.android.mylibrary.utils.settings.items.SwitchItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
 
 /**
  * 现代化的混合设置基类。
@@ -43,6 +38,7 @@ import kotlinx.coroutines.launch
 abstract class BaseSetting : AppCompatActivity() {
     protected val scope: CoroutineScope get() = lifecycleScope
     private val _items = mutableStateListOf<SettingItem<*>>()
+
     /**
      * 【抽象成员属性】：由具体的业务实现类自己实现。
      * 允许使用传统 XML 并绑定 RecyclerView。如果使用 Compose，返回 null。
@@ -60,40 +56,18 @@ abstract class BaseSetting : AppCompatActivity() {
     }
 
     /**
-     * 界面初始化
+     * 界面初始化。建议在此处调用 [settings] 函数块来配置选项。
      */
     abstract fun initView()
 
     /**
-     * 增加输入框项。初始化时若有耗时 IO，输入框会保持 disabled 状态。
+     * 【核心入口】：开启 Settings DSL 构建域
+     * 在此闭包内使用 addInput、addSwitch 等函数，彻底解决由于 Activity 继承带来的 API 污染。
      */
-    fun addInput(
-        id: String,
-        text: String,
-        hint: String = "请输入...",
-        getValue: suspend () -> String,
-        saveValue: suspend (String) -> Unit
-    ) = _items.add(InputItem(id, text, hint, getValue, saveValue))
-
-    /**
-     * 增加开关项
-     */
-    fun addSwitch(
-        id: String,
-        text: String,
-        getValue: suspend () -> Boolean,
-        saveValue: suspend (Boolean) -> Unit
-    ) = _items.add(SwitchItem(id, text, getValue, saveValue))
-
-    /**
-     * 增加按钮/点击项
-     */
-    fun addButton(id: String, text: String, onClick: () -> Unit) =
-        _items.add(ButtonItem(id, text, onClick))
-    /**
-     * 增加分割线
-     */
-    fun addLine(id: String = "line_${System.currentTimeMillis()}") = _items.add(LineItem(id))
+    protected fun settings(block: SettingsBuilder.() -> Unit) {
+        val builder = SettingsBuilder(_items)
+        builder.block()
+    }
 
     /**
      * 根据 ID 获取组件以进行进一步操作
@@ -109,7 +83,7 @@ abstract class BaseSetting : AppCompatActivity() {
      */
     fun saveAll(all: Boolean = false) {
         scope.launch {
-            _items.filter { ! it.immediateSave || all }.forEach { it.save() }
+            _items.filter { !it.immediateSave || all }.forEach { it.save() }
         }
     }
 

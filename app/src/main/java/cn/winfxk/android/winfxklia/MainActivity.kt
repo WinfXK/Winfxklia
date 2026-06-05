@@ -15,15 +15,70 @@
 * Created Date: 2026/6/2  14:14 */
 package cn.winfxk.android.winfxklia
 
-import androidx.recyclerview.widget.RecyclerView
+import cn.winfxk.android.mylibrary.tip.dialog.MyBuilder
 import cn.winfxk.android.mylibrary.utils.settings.BaseSetting
 import cn.winfxk.android.winfxklia.databinding.MainActivityBinding
 
 
 class MainActivity : BaseSetting() {
-    private val binding: MainActivityBinding by lazy { MainActivityBinding.inflate(layoutInflater) }
-    override val recyclerView: RecyclerView by lazy { binding.listView }
+    private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
+    override val recyclerView by lazy { binding.listView }
 
     override fun initView() {
+        setContentView(binding.root)
+        settings {
+            addHeader(title = "通用设置")
+            val single = addSingleChoice(
+                id = "theme",
+                title = "应用主题",
+                options = listOf("浅色", "深色", "跟随系统"),
+                getValue = { "跟随系统" },
+                saveValue = { /* 保存 */ }
+            )
+            val switch = addSwitch(id = "switch", text = "开启硬件加速", getValue = { true }, saveValue = { })
+            val slider = addSlider(
+                id = "volume",
+                title = "音量大小",
+                range = 0f .. 100f,
+                getValue = { 50f },
+                saveValue = { /* 保存 */ }
+            )
+
+            addLine()
+            addHeader(title = "高级功能")
+
+            val multi = addMultiChoice(
+                id = "features",
+                title = "启用特性",
+                options = listOf("实验性UI", "后台唤醒", "硬件加速"),
+                getValue = { setOf("后台唤醒") },
+                saveValue = { /* 保存 */ }
+            )
+
+            val rating = addRating(
+                id = "score",
+                title = "给我们打分",
+                maxStars = 5,
+                getValue = { 4 },
+                saveValue = { /* 保存 */ }
+            )
+            addButton(
+                "save",
+                "保存",
+            ) {
+                val builder = MyBuilder(this@MainActivity);
+                builder.message = """
+                    应用主题: ${single.value}
+                    音量大小: ${slider.value}
+                    启用特性: ${multi.value}
+                    评分: ${rating.value}
+                    开启硬件加速: ${switch.value}
+                    """.trimIndent()
+                builder.addButton("确定")
+                builder.addButton("取消")
+                builder.show()
+            }
+        }
+
     }
 }
