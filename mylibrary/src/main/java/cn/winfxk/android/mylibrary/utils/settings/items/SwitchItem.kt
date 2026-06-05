@@ -12,18 +12,12 @@
 * Author： Winfxk
 * Created PCUser: Winfx 
 * Web: http://winfxk.com
-* Created Date: 2026/6/2  14:14 */
-package cn.winfxk.android.winfxklia
+* Created Date: 2026/6/5  10:51 */
+package cn.winfxk.android.mylibrary.utils.settings.items
 
-import androidx.recyclerview.widget.RecyclerView
-import cn.winfxk.android.mylibrary.utils.settings.BaseSetting
-import cn.winfxk.android.winfxklia.databinding.MainActivityBinding
-
-
-class MainActivity : BaseSetting() {
-    private val binding: MainActivityBinding by lazy { MainActivityBinding.inflate(layoutInflater) }
-    override val recyclerView: RecyclerView by lazy { binding.listView }
-
-    override fun initView() {
-    }
-}
+class SwitchItem(
+    id: String,
+    title: String,
+    getValue: suspend () -> Boolean,
+    saveValue: suspend (Boolean) -> Unit
+) : SettingItem<Boolean>(id, title, getValue, saveValue, immediateSave = true)

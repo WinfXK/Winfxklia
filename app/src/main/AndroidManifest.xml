@@ -9,7 +9,7 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+            android:theme="@style/Theme.Winfxklia">
         <activity
                 android:exported="true"
                 android:name=".MainActivity">

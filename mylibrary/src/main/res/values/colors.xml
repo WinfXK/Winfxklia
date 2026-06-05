@@ -11,4 +11,6 @@
     <color name="winfxklia_transparent">#00000000</color>
     <color name="winfxklia_textColor1">#000</color>
     <color name="winfxklia_textColor2">#555</color>
+    <color name="winfxklia_primary">#FF6200EE</color>
+    <color name="winfxklia_primary_variant">#FF3700B3</color>
 </resources>

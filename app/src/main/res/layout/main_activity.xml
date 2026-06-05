@@ -3,51 +3,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <cn.winfxk.android.mylibrary.view.ImageView
+    <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/icon"
-            android:scaleType="fitCenter"
-            android:contentDescription="@string/app_name" />
-
-    <Button
-            android:text="内置"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/confirm1" />
-
-    <Button
-            android:layout_below="@id/confirm1"
-            android:text="系统"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/confirm2" />
-
-    <Button
-            android:layout_below="@id/confirm2"
-            android:text="选择"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/confirm3" />
-
-    <Button
-            android:layout_below="@id/confirm3"
-            android:text="相册"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/confirm4" />
-
-    <Button
-            android:layout_below="@id/confirm4"
-            android:text="网图"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/confirm5" />
-
-    <cn.winfxk.android.mylibrary.view.TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/app_name"
-            android:gravity="center"
-            android:id="@+id/text" />
+            android:id="@+id/listView" />
 </RelativeLayout>

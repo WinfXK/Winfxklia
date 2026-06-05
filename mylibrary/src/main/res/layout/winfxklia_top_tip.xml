@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  顶部横幅提示的专属布局
-  采用扁平化设计，自带阴影和圆角质感
--->
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -15,7 +10,6 @@
         android:elevation="8dp"
         android:padding="12dp">
 
-    <!-- 内部的卡片背景，用代码动态上色以保证高兼容性，这里用一个相对布局包裹 -->
     <RelativeLayout
             android:id="@+id/toptip_background"
             android:layout_width="0dp"

@@ -35,6 +35,8 @@ import androidx.core.view.isVisible
 import cn.winfxk.android.mylibrary.R
 import cn.winfxk.android.mylibrary.databinding.WinfxkliaDialogSmartBinding
 
+typealias BuilderListener = DialogButton.() -> Unit
+
 /**
  * 现代化的智能弹窗 (基于组合模式，拒绝 API 污染)
  */
@@ -161,7 +163,7 @@ class MyBuilder(val context: Context, builder: MyBuilder.() -> Unit = {}) {
     /**
      * 添加按钮
      */
-    fun addButton(text: String, block: DialogButton.() -> Unit = {}) {
+    fun addButton(text: String, block: BuilderListener = {}) {
         val config = DialogButton(text).apply(block)
         buttons.add(config)
         if (isShowing) runOnUI { renderButtons() }
@@ -256,5 +258,9 @@ class MyBuilder(val context: Context, builder: MyBuilder.() -> Unit = {}) {
 
     private fun dpToPx(dp: Float): Float {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics)
+    }
+
+    companion object {
+        val emptyListener: BuilderListener = {}
     }
 }

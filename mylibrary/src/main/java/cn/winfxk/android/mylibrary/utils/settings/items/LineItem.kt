@@ -12,18 +12,8 @@
 * Author： Winfxk
 * Created PCUser: Winfx 
 * Web: http://winfxk.com
-* Created Date: 2026/6/2  14:14 */
-package cn.winfxk.android.winfxklia
-
-import androidx.recyclerview.widget.RecyclerView
-import cn.winfxk.android.mylibrary.utils.settings.BaseSetting
-import cn.winfxk.android.winfxklia.databinding.MainActivityBinding
+* Created Date: 2026/6/5  10:52 */
+package cn.winfxk.android.mylibrary.utils.settings.items
 
 
-class MainActivity : BaseSetting() {
-    private val binding: MainActivityBinding by lazy { MainActivityBinding.inflate(layoutInflater) }
-    override val recyclerView: RecyclerView by lazy { binding.listView }
-
-    override fun initView() {
-    }
-}
+class LineItem(id: String) : SettingItem<Unit>(id, "", { }, { }, immediateSave = false)
